@@ -1,3 +1,5 @@
+{% load static from staticfiles %}
+
 <!DOCTYPE HTML>
 <html lang="uk">
 	
@@ -8,7 +10,7 @@
 		value="Система Обліку Студентів Навчального Закладу" />
 	<link rel="stylesheet"
 		href="https://cdn.jsdelivr.net/bootstrap/3.3.0/css/bootstrap.min.css">
-	<link rel="stylesheet" href="./css/main.css">
+	<link rel="stylesheet" href="{% static "css/main.css" %}">
 	</head>			
 <body>
 	<div class="container">
@@ -66,16 +68,21 @@
 							</tr>
 						</thead>
 						<tbody>
-							<!-- Студент Вейдер -->
+							<!-- Студенти -->
+							{% for student in students %} 
 							<tr>
-								<td>1</td>
+								<td>{{ forloop.counter }}</td>
 								<td><img height="40" width="40" 
-								src="./img/SOS.JPG" class="img-circle"></td>
-								<td><a title="Редагувати" href="{% url "students_edit" 1 %}">
-										Вейдер
+								src="{% static student.image %}" class="img-circle"></td>
+								<td><a title="Редагувати" 
+									href="{% url "students_edit" student.id %}">
+										{{ student.first_name }}
 									</a></td>
-								<td><a title="Редагувати" href="{% url "students_edit" 1 %}">Дарт</a></td>
-								<td>2123</td>
+								<td><a title="Редагувати" 
+									href="{% url "students_edit" student.id %}">
+										{{ student.last_name }}
+									</a></td>
+								<td>{{ student.ticket }}</td>
 								<td>
 									<div class="dropdown">
 										<button class="btn btn-default dropdown-toggle" 
@@ -87,86 +94,26 @@
 										<ul class="dropdown-menu" role="menu" 
 											aria-labelledby="dropdownMenu1">
 											<li role="presentation">
-												<a role="menuitem" tabindex="-1" href="{% url "journal" %}">
+												<a role="menuitem" tabindex="-1" 
+													ref="{% url "journal" %}">
 													Відвідування
 												</a></li>
 											<li role="presentation">
-												<a role="menuitem" tabindex="-1" href="{% url "students_edit" 1 %}">
+												<a role="menuitem" tabindex="-1" 
+												href="{% url "students_edit" student.id %}">
 													Редагувати
 												</a></li>
 											<li role="presentation">
-												<a role="menuitem" tabindex="-1" href="{% url "students_delete" 1 %}">
+												<a role="menuitem" tabindex="-1" 
+												href="{% url "students_delete" student.id %}">
 													Видалити
 												</a></li>
 										</ul>
 									</div>
 								</td>
 							</tr>
-							<!-- Студент Мелфой -->
-							<tr>
-								<td>2</td>
-								<td><img height="40" width="40" src="./img/Mich.JPG" class="img-circle"></td>
-								<td><a title="Редагувати" href="{% url "students_edit" 2 %}">Мелфой</a></td>
-								<td><a title="Редагувати" href="{% url "students_edit" 2 %}">Люціус</a></td>
-								<td>2124</td>
-								<td>
-									<div class="dropdown">
-										<button class="btn btn-default dropdown-toggle" 
-											type="button" id="dropdownMenu1" 
-												data-toggle="dropdown" aria-expanded="true">
-											Дія
-											<span class="caret"></span>
-										</button>
-										<ul class="dropdown-menu" role="menu" 
-										aria-labelledby="dropdownMenu1">
-											<li role="presentation">
-												<a role="menuitem" tabindex="-1" href="{% url "journal" %}">
-													Відвідування
-												</a></li>
-											<li role="presentation">
-												<a role="menuitem" tabindex="-1" href="{% url "students_edit" 2 %}">
-													Редагувати
-												</a></li>
-											<li role="presentation">
-												<a role="menuitem" tabindex="-1" href="{% url "students_delete" 2 %}">
-													Видалити
-												</a></li>
-										</ul>
-									</div>
-								</td>
-							</tr>
-							<!-- Студент Бендер -->
-							<tr>
-								<td>3</td>
-								<td><img height="40" width="40" src="./img/Kir.JPG" class="img-circle"></td>
-								<td><a title="Редагувати" href="{% url "students_edit" 3 %}">Бендер</a></td>
-								<td><a title="Редагувати" href="{% url "students_edit" 3 %}">Остап</a></td>
-								<td>2125</td>
-								<td>
-									<div class="dropdown">
-										<button class="btn btn-default dropdown-toggle" 
-											type="button" id="dropdownMenu1" 
-												data-toggle="dropdown" aria-expanded="true">
-											Дія
-											<span class="caret"></span>
-										</button>
-										<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-											<li role="presentation">
-												<a role="menuitem" tabindex="-1" href="{% url "journal" %}">
-													Відвідування
-												</a></li>
-											<li role="presentation">
-												<a role="menuitem" tabindex="-1" href="{% url "students_edit" 3 %}">
-													Редагувати
-												</a></li>
-											<li role="presentation">
-												<a role="menuitem" tabindex="-1" href="{% url "students_delete" 3 %}">
-													Видалити
-												</a></li>
-										</ul>
-									</div>
-								</td>
-							</tr>
+							{% endfor %}
+			
 						</tbody>
 					</table>
 					<!-- Panel of Navigation -->

@@ -1,0 +1,23 @@
+.container {
+	width:90%;
+	margin-right: auto;
+	margin-left: auto;
+}
+h1 {
+	display:inline-block;
+	font-family: Arial;
+	font-size:36px;
+	margin-top:10px;
+}
+.ChangerGroup {
+	display:inline-block;
+	float:right;
+	font-size:14px;
+	margin-top:20px;
+}
+.ChangerGroup select {
+	width: 300px;
+	padding:5 0 5 0;
+	background-color:white;
+	border:1px solid #cccccc;
+}

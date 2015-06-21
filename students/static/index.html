@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<html lang="uk">
+	
+<head>
+	<meta charset="UTF-8" />
+	<title>Сервіс обліку студентів</title>
+	<meta name="description"
+		value="Система Обліку Студентів Навчального Закладу" />
+	<link rel="stylesheet"
+		href="https://cdn.jsdelivr.net/bootstrap/3.3.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="./css/main.css">
+	</head>			
+<body>
+	<div class="container">
+		<!-- Header -->
+		<div class="row" id="header">
+			<div class="col-xs-8">
+				<h1>Сервіс Обліку Студентів</h1>
+			</div>
+			<div class="col-xs-4" id="group-selector">
+				<strong>Група:</strong>
+				<select>
+					<option value="">Усі студенти</option>
+					<option value="">БМ-04, Вейдер Дарт (№ 2123)</option>
+					<option value="">БМ-04, Мелфой Люціус (№ 2124)</option>
+					<option value="">БМ-04, Бендер Остап (№ 2125)</option>
+				</select>
+			</div>
+		</div>
+		<!-- Subheader -->
+		<div class="row" id="sub-header">
+			<div class="col-xs-12">
+				<ul class="nav nav-tabs">
+					<li role="presentation" class="active"><a href="#">Студенти</a></li>
+					<li role="presentation"><a href="#">Відвідування</a></li>
+					<li role="presentation"><a href="#">Групи</a></li>
+				</ul>
+			</div>
+		</div>
+		<!-- Main page -->
+		<div class="row" id="content-columns">
+			<div class="col-xs-12">
+				<div class="alert alert-warning" role="alert">Студент успішно доданий.</div>
+				<h2 class="head">База Студентів</h2>
+				<a class="btn btn-primary btn-lg head" href="#" role="button">Додати Студента</a>
+				<div>
+					<!-- Table of Student -->
+					<table class="table table-hover table-striped">
+						<thead>
+							<tr>
+								<th><a href="">№</a></th>
+								<th>Фото</th>
+								<th><a href="">Прізвище &uarr;</a></th>
+								<th><a href="#">Ім’я</a></th>
+								<th><a href="#">№ Білету</a></th>
+								<th>Дії</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- Студент Вейдер -->
+							<tr>
+								<td>1</td>
+								<td><img height="40" width="40" src="./img/SOS.JPG" class="img-circle"></td>
+								<td><a title="Редагувати" href="#">Вейдер</a></td>
+								<td><a title="Редагувати" href="#">Дарт</a></td>
+								<td>2123</td>
+								<td>
+									<div class="dropdown">
+										<button class="btn btn-default dropdown-toggle" 
+											type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+											Дія
+											<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+											<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Відвідування</a></li>
+											<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Редагувати</a></li>
+											<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Видалити</a></li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+							<!-- Студент Мелфой -->
+							<tr>
+								<td>2</td>
+								<td><img height="40" width="40" src="./img/Mich.JPG" class="img-circle"></td>
+								<td><a title="Редагувати" href="#">Мелфой</a></td>
+								<td><a title="Редагувати" href="#">Люціус</a></td>
+								<td>2124</td>
+								<td>
+									<div class="dropdown">
+										<button class="btn btn-default dropdown-toggle" 
+											type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+											Дія
+											<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+											<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Відвідування</a></li>
+											<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Редагувати</a></li>
+											<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Видалити</a></li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+							<!-- Студент Бендер -->
+							<tr>
+								<td>3</td>
+								<td><img height="40" width="40" src="./img/Kir.JPG" class="img-circle"></td>
+								<td><a title="Редагувати" href="#">Бендер</a></td>
+								<td><a title="Редагувати" href="#">Остап</a></td>
+								<td>2125</td>
+								<td>
+									<div class="dropdown">
+										<button class="btn btn-default dropdown-toggle" 
+											type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+											Дія
+											<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+											<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Відвідування</a></li>
+											<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Редагувати</a></li>
+											<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Видалити</a></li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<!-- Panel of Navigation -->
+					<nav>
+						<ul class="pagination">
+							<li>
+								<a href="#" aria-label="Previous">
+									<span aria-hidden="true">&laquo;</span>
+								</a>
+							</li>
+							<li><a href="#">1</a></li>
+							<li class="active"><a href="#">2</a></li>
+							<li><a href="#">3</a></li>
+							<li><a href="#">4</a></li>
+							<li><a href="#">5</a></li>
+							<li>
+								<a href="#" aria-label="Next">
+									<span aria-hidden="true">&raquo;</span>
+								</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+		<!-- Footer -->
+		<div class="row" id="footer">
+			<div class="col-xs-12">&copy; 2014 Сервіс Обліку Студентів</div>
+		</div>
+	</div>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+	<script src="https://cdn.jsdelivr.net/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+		
+</body>
+	
+</html>
