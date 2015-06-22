@@ -23,7 +23,19 @@ def students_list(request):
 		 'ticket': 411,
 		 'image': 'img/Kir.JPG'},
 	)
-	return render(request, 'students/students_list.html', {'students': students})
+	groups = (
+		{'id': 1,
+		 'name': u'1Б-04',
+		 'leader': {'id': 4, 'name': u'Бацура Олександр'}},
+		{'id': 2,
+		 'name': u'2Б-04',
+		 'leader': {'id': 5, 'name': u'Козаченко Богдан'}},
+		{'id': 3,
+		 'name': u'БМ-04',
+		 'leader': {'id': 2, 'name': u'Люціус Мелфой'}},
+		 )
+	return render(request, 'students/students_list.html', 
+		{'students': students, 'groups': groups})
 
 def students_add(request):
 	return HttpResponse('<h1>Student Add Form</h1>')
@@ -39,9 +51,16 @@ def students_delete(request, sid):
 def groups_list(request):
 	groups = (
 		{'id': 1,
+		 'name': u'1Б-04',
+		 'leader': {'id': 4, 'name': u'Бацура Олександр'}},
+		{'id': 2,
+		 'name': u'2Б-04',
+		 'leader': {'id': 5, 'name': u'Козаченко Богдан'}},
+		{'id': 3,
 		 'name': u'БМ-04',
-		 'name_leader': u'Бацура Олександр'})
-	return render(request, 'students/groups_list.html', {})
+		 'leader': {'id': 2, 'name': u'Люціус Мелфой'}},
+		 )
+	return render(request, 'students/groups_list.html', {'groups': groups})
 
 def groups_add(request):
 	return HttpResponse('<h1>Group Add Form</h1>')

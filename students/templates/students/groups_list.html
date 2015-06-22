@@ -19,14 +19,16 @@
 			</tr>
 		</thead>
 		<tbody>
-			<!-- 1Б-04 -->
+			<!-- Groups List -->
+			{% for group in groups %}
 			<tr>
-				<td>1</td>
-				<td><a title="Редагувати" href="{% url "groups_edit" 1 %}">
-						1Б-04
+				<td>{{ forloop.counter }}</td>
+				<td><a title="Редагувати" href="{% url "groups_edit" group.id %}">
+						{{ group.name }}
 					</a></td>
-				<td><a title="Редагувати" href="{% url "students_edit" 3 %}">
-						Бацура Олександр
+				<td><a title="Редагувати" 
+					href="{% url "students_edit" group.leader.id %}">
+						{{ group.leader.name }}
 					</a></td>
 				<td>
 					<div class="dropdown">
@@ -40,80 +42,19 @@
 							role="menu" aria-labelledby="dropdownMenu1">
 							<li role="presentation">
 								<a role="menuitem" tabindex="-1" 
-									href="{% url "groups_edit" 1 %}">
+									href="{% url "groups_edit" group.id %}">
 									Редагувати
 								</a></li>
 							<li role="presentation">
 								<a role="menuitem" tabindex="-1" 
-									href="{% url "groups_delete" 1 %}">
+									href="{% url "groups_delete" group.id %}">
 									Видалити
 								</a></li>
 						</ul>
 					</div>
 				</td>
 			</tr>
-			<!-- 2Б-04 -->
-			<tr>
-				<td>2</td>
-				<td><a title="Редагувати" href="{% url "groups_edit" 2 %}">
-					2Б-04</a></td>
-				<td><a title="Редагувати" href="{% url "students_edit" 4 %}">
-					Козаченко Богдан</a></td>
-				<td>
-					<div class="dropdown">
-						<button class="btn btn-default dropdown-toggle" 
-							type="button" id="dropdownMenu1" 
-							data-toggle="dropdown" aria-expanded="true">
-							Дія
-							<span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu" 
-							role="menu" aria-labelledby="dropdownMenu1">
-							<li role="presentation">
-								<a role="menuitem" tabindex="-1" 
-									href="{% url "groups_edit" 2 %}">
-									Редагувати
-								</a></li>
-							<li role="presentation">
-								<a role="menuitem" tabindex="-1" 
-									href="{% url "groups_delete" 2 %}">
-									Видалити
-								</a></li>
-						</ul>
-					</div>
-				</td>
-			</tr>
-			<!-- БМ-04 -->
-			<tr>
-				<td>3</td>
-				<td><a title="Редагувати" href="{% url "groups_edit" 3 %}">
-					БМ-04</a></td>
-				<td><a title="Редагувати" href="{% url "students_edit" 5 %}">
-					Мелфой Люціус</a></td>
-				<td>
-					<div class="dropdown">
-						<button class="btn btn-default dropdown-toggle" 
-							type="button" id="dropdownMenu1" 
-							data-toggle="dropdown" aria-expanded="true">
-							Дія
-							<span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu" 
-							role="menu" aria-labelledby="dropdownMenu1">
-							<li role="presentation">
-								<a role="menuitem" tabindex="-1" 
-									href="{% url "groups_edit" 3 %}">
-									Редагувати
-								</a></li>
-							<li role="presentation">
-								<a role="menuitem" tabindex="-1" 
-									href="{% url "groups_delete" 3 %}">
-									Видалити
-								</a></li>
-						</ul>
-					</div>
-				</td>
-			</tr>
+			{% endfor %}
 		</tbody>
 	</table>
 	<!-- Panel of Navigation -->

@@ -25,9 +25,9 @@
 				<strong>Група:</strong>
 				<select>
 					<option value="">Усі студенти</option>
-					<option value="">БМ-04, Вейдер Дарт (№ 2123)</option>
-					<option value="">БМ-04, Мелфой Люціус (№ 2124)</option>
-					<option value="">БМ-04, Бендер Остап (№ 2125)</option>
+					{% for group in groups %}
+					<option value="">{{ group.name }}, {{group.leader.name}}</option>
+					{% endfor %}
 				</select>
 			</div>
 		</div>
