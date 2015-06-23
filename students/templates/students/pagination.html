@@ -1,0 +1,32 @@
+<nav>
+	<ul class="pagination">
+		{% if arrow_first %}
+		<li>
+			<a href="#" aria-label="Previous">
+				<span aria-hidden="true">&laquo;</span>
+			</a>
+		</li>
+		{% endif %}
+		{% for number in numbers %}
+			{% if number == class_active %}
+			<li class="active"><a href="#">{{ number }}</a></li>
+			{% else %}
+			<li><a href="#">{{ number }}</a></li>
+			{% endif %}
+		{% endfor %}
+		{% if arrow_last %}
+		<li>
+			<a href="#" aria-label="Next">
+				<span aria-hidden="true">&raquo;</span>
+			</a>
+		</li>
+		{% endif %}
+		{% if word_arrow %}
+		<li>
+			<a href="#" aria-label="Next">
+				<span aria-hidden="true">Далі</span>
+			</a>
+		</li>
+		{% endif %}
+	</ul>
+</nav>

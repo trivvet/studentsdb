@@ -58,16 +58,6 @@
 		</tbody>
 	</table>
 	<!-- Panel of Navigation -->
-	<nav>
-	  <ul class="pagination">
-		<li><a href="#">1</a></li>
-		<li><a class="#" href="#">2</a></li>
-		<li>
-		  <a href="#" aria-label="Next">
-			<span aria-hidden="true">Далі</span>
-		  </a>
-		</li>
-	  </ul>
-	</nav>
+	{% include "students/pagination.html" with numbers="12" word_arrow="1" class_active="1"%}
 </div>
 {% endblock content %}

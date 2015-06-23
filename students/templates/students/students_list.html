@@ -74,24 +74,6 @@ href="{% url "students_add" %}" role="button">
 		</tbody>
 	</table>
 	<!-- Panel of Navigation -->
-	<nav>
-		<ul class="pagination">
-			<li>
-				<a href="#" aria-label="Previous">
-					<span aria-hidden="true">&laquo;</span>
-				</a>
-			</li>
-			<li><a href="#">1</a></li>
-			<li class="active"><a href="#">2</a></li>
-			<li><a href="#">3</a></li>
-			<li><a href="#">4</a></li>
-			<li><a href="#">5</a></li>
-			<li>
-				<a href="#" aria-label="Next">
-					<span aria-hidden="true">&raquo;</span>
-				</a>
-			</li>
-		</ul>
-	</nav>
+	{% include "students/pagination.html" with numbers="12345" arrow_first="1" arrow_last="1" class_active="2"%}
 </div>
 {% endblock content %}

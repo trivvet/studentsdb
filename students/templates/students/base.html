@@ -19,7 +19,7 @@
 		<!-- Header -->
 		<div class="row" id="header">
 			<div class="col-xs-8">
-				<h1>Сервіс Обліку Студентів</h1>
+				<h1>{% block header %}Сервіс Обліку Студентів{% endblock header %}</h1>
 			</div>
 			<div class="col-xs-4" id="group-selector">
 				<strong>Група:</strong>
@@ -49,6 +49,7 @@
 						{% if "/groups" in request.path %}class="active"{% endif %}>
 						<a href="{% url "groups" %}">Групи</a>
 					</li>
+					{% block subheader %}{% endblock subheader %}
 				</ul>
 			</div>
 		</div>
@@ -66,7 +67,7 @@
 		</div>
 		<!-- Footer -->
 		<div class="row" id="footer">
-			<div class="col-xs-12">&copy; 2014 Сервіс Обліку Студентів</div>
+			<div class="col-xs-12">{% block footer %}&copy; 2014 Сервіс Обліку Студентів{% endblock footer %}</div>
 		</div>
 	</div>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
