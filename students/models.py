@@ -13,12 +13,12 @@ class Student(models.Model):
 	first_name = models.CharField(
 		max_length=256,
 		blank=False,
-		verbose_name=u"Ім’я")
-		
+		verbose_name=u"Прізвище")
+	
 	last_name = models.CharField(
 		max_length=256,
 		blank=False,
-		verbose_name=u"Прізвище")
+		verbose_name=u"Ім’я")
 		
 	middle_name = models.CharField(
 		max_length=256,
@@ -36,8 +36,7 @@ class Student(models.Model):
 		verbose_name=u'Фото',
 		null=True)
 		
-	ticket = models.CharField(
-		max_length=256,
+	ticket = models.IntegerField(
 		blank=False,
 		verbose_name=u"Білет")
 		
