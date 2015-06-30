@@ -112,6 +112,8 @@ href="{% url "students_add" %}" role="button">
 		</tbody>
 	</table>
 	<!-- Panel of Navigation -->
-	{% include "students/pagination.html" with numbers="12345" arrow_first="1" arrow_last="1" class_active="2"%}
+	{% if students.has_other_pages %}
+		{% include "students/pagination.html" with page='home' order_by=request.GET.order_by reverse=request.GET.reverse %}
+	{% endif %}
 </div>
 {% endblock content %}

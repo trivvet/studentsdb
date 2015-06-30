@@ -1,32 +1,21 @@
 <nav>
 	<ul class="pagination">
-		{% if arrow_first %}
 		<li>
-			<a href="#" aria-label="Previous">
+			<a href="{% url page %}?page=1&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}" aria-label="Previous">
 				<span aria-hidden="true">&laquo;</span>
 			</a>
 		</li>
-		{% endif %}
-		{% for number in numbers %}
-			{% if number == class_active %}
-			<li class="active"><a href="#">{{ number }}</a></li>
-			{% else %}
-			<li><a href="#">{{ number }}</a></li>
-			{% endif %}
+		{% for p in students.paginator.page_range %}
+			<li {% if students.number == p %}
+				class="active" {% endif%}>
+				<a href="{% url page %}?page={{ p }}&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}">{{ p }}</a>
+			</li>
 		{% endfor %}
-		{% if arrow_last %}
 		<li>
-			<a href="#" aria-label="Next">
+			<a href="{% url page %}?page={{ students.paginator.num_pages }}&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}" 
+				aria-label="Next">
 				<span aria-hidden="true">&raquo;</span>
 			</a>
 		</li>
-		{% endif %}
-		{% if word_arrow %}
-		<li>
-			<a href="#" aria-label="Next">
-				<span aria-hidden="true">Далі</span>
-			</a>
-		</li>
-		{% endif %}
 	</ul>
 </nav>
