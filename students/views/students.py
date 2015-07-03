@@ -3,39 +3,37 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from ..models import Student
+from ..models import Student, Group
 
 # Views for Students
 
 def students_list(request):
+	
 	students = Student.objects.all()
 	
 	order_by = request.GET.get('order_by', '')
-	if order_by in ('last_name', 'first_name', 'ticket'):
+	if order_by in ('id', 'last_name', 'first_name', 'ticket'):
 		students = students.order_by(order_by)
 		if request.GET.get('reverse', '') == '1':
 			students = students.reverse()
-			
-	paginator = Paginator(students, 3)
-	page = request.GET.get('page')
-	try:
-		students = paginator.page(page)
-	except PageNotAnInteger:
-		students = paginator.page(1)
-	except EmptyPage:
-		students = paginator.page(paginator.num_pages)
 	
-	groups = (
-		{'id': 1,
-		 'name': u'1Б-04',
-		 'leader': {'id': 4, 'name': u'Бацура Олександр'}},
-		{'id': 2,
-		 'name': u'2Б-04',
-		 'leader': {'id': 5, 'name': u'Козаченко Богдан'}},
-		{'id': 3,
-		 'name': u'БМ-04',
-		 'leader': {'id': 2, 'name': u'Люціус Мелфой'}},
-		 )
+	start = request.GET.get('start', '')
+	end = request.GET.get('end', '')
+	if start and end:
+		students = students[start:end]
+	else:
+		students = students[0:3]
+			
+#	paginator = Paginator(students, 3)
+#	page = request.GET.get('page')
+#	try:
+#		students = paginator.page(page)
+#	except PageNotAnInteger:
+#		students = paginator.page(1)
+#	except EmptyPage:
+#		students = paginator.page(paginator.num_pages)
+	
+	groups = Group.objects.all()
 	return render(request, 'students/students_list.html', 
 		{'students': students, 'groups': groups})
 

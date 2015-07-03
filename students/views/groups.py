@@ -2,19 +2,24 @@
 
 from django.shortcuts import render
 from django.http import HttpResponse
+from ..models import Group
 
 def groups_list(request):
-	groups = (
-		{'id': 1,
-		 'name': u'1Б-04',
-		 'leader': {'id': 4, 'name': u'Бацура Олександр'}},
-		{'id': 2,
-		 'name': u'2Б-04',
-		 'leader': {'id': 5, 'name': u'Козаченко Богдан'}},
-		{'id': 3,
-		 'name': u'БМ-04',
-		 'leader': {'id': 2, 'name': u'Люціус Мелфой'}},
-		 )
+	groups = Group.objects.all()
+	
+	order_by = request.GET.get('order_by', '')
+	if order_by in ('id', 'title', 'leader'):
+		groups = groups.order_by(order_by)
+		if request.GET.get('reverse', '') == '1':
+			groups = groups.reverse()
+	
+	start = request.GET.get('start', '')
+	end = request.GET.get('end', '')
+	if start and end:
+		groups = groups[start:end]
+	else:
+		groups = groups[0:3]
+	
 	return render(request, 'students/groups_list.html', {'groups': groups})
 
 def groups_add(request):

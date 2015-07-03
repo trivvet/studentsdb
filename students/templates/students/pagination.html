@@ -1,7 +1,7 @@
 <nav>
 	<ul class="pagination">
 		<li>
-			<a href="{% url page %}?page=1&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}" aria-label="Previous">
+			<a href="{% url page %}?order_by={{ order_by }}&amp;reverse={{ reverse }}" aria-label="Previous">
 				<span aria-hidden="true">&laquo;</span>
 			</a>
 		</li>
@@ -12,7 +12,7 @@
 			</li>
 		{% endfor %}
 		<li>
-			<a href="{% url page %}?page={{ students.paginator.num_pages }}&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}" 
+			<a href="{% url page %}?start=3&amp;end=5&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}" 
 				aria-label="Next">
 				<span aria-hidden="true">&raquo;</span>
 			</a>
