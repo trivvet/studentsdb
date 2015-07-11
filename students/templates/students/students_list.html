@@ -23,9 +23,9 @@ href="{% url "students_add" %}" role="button">
 						&amp;reverse=1
 					{% endif %}">№
 					{% if order_by == 'id' and reverse != '1'%}
-						&darr;
-					{% elif order_by == 'id' and reverse == '1' %}
 						&uarr;
+					{% elif order_by == 'id' and reverse == '1' %}
+						&darr;
 					{% endif %}
 					<a></th>
 				<th>Фото</th>
@@ -35,9 +35,9 @@ href="{% url "students_add" %}" role="button">
 					{% endif %}">
 					Прізвище 
 					{% if order_by == 'first_name' and reverse != '1'%}
-						&darr;
-					{% elif order_by == 'first_name' and reverse == '1' %}
 						&uarr;
+					{% elif order_by == 'first_name' and reverse == '1' %}
+						&darr;
 					{% endif %}
 					</a></th>
 				<th><a href="{% url "home" %}?order_by=last_name
@@ -46,9 +46,9 @@ href="{% url "students_add" %}" role="button">
 					{% endif %}">
 					Ім’я
 					{% if order_by == 'last_name' and reverse != '1' %}
-						&darr;
-					{% elif order_by == 'last_name' and reverse == '1' %}
 						&uarr;
+					{% elif order_by == 'last_name' and reverse == '1' %}
+						&darr;
 					{% endif %}
 					</a></th>
 				<th><a href="{% url "home" %}?order_by=ticket
@@ -57,9 +57,9 @@ href="{% url "students_add" %}" role="button">
 					{% endif %}">
 					№ Білету
 					{% if order_by == 'ticket' and reverse != '1' %}
-						&darr;
-					{% elif order_by == 'ticket' and reverse == '1' %}
 						&uarr;
+					{% elif order_by == 'ticket' and reverse == '1' %}
+						&darr;
 					{% endif %}
 					</a></th>
 				<th>Дії</th>
@@ -69,6 +69,7 @@ href="{% url "students_add" %}" role="button">
 		<tbody>
 			<!-- Студенти -->
 			{% for student in students %} 
+			{% if forloop.counter <= 3 %}
 			<tr>
 				<td>{{ student.id }}</td>
 				{% if student.photo %}
@@ -116,15 +117,17 @@ href="{% url "students_add" %}" role="button">
 					</div>
 				</td>
 			</tr>
+			{% endif %}
 			{% endfor %}
 
 		</tbody>
 	</table>
 	<!-- Panel of Navigation -->
 	
-		{% include "students/pagination.html" with page='home' order_by=request.GET.order_by reverse=request.GET.reverse %}
-	
 </div>
-{% endblock content %}
-{% if students.has_other_pages %}
+
+{% if pages.counting > 1 %}
+		{% include "students/pagination.html" with page='home' order_by=request.GET.order_by reverse=request.GET.reverse %}
 {% endif %}
+{% endblock content %}
+
