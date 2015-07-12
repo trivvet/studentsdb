@@ -2,7 +2,6 @@
 
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from ..models import Student, Group
 
 # Views for Students
@@ -30,7 +29,7 @@ def students_list(request):
 		'counting': Student.objects.count()
 	}
 	
-	number_page = request.GET.get('page', '')
+	number_page = request.GET.get('page')
 	if number_page:
 		start = (int(number_page) - 1) * 3
 		end = start + 3

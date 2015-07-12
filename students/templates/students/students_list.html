@@ -30,11 +30,11 @@ href="{% url "students_add" %}" role="button">
 					<a></th>
 				<th>Фото</th>
 				<th><a href="{% url "home" %}?order_by=first_name
-					{% if order_by == 'first_name' and reverse != '1' %}
+					{% if order_by == 'first_name' and reverse != '1' or order_by == '' %}
 						&amp;reverse=1
 					{% endif %}">
 					Прізвище 
-					{% if order_by == 'first_name' and reverse != '1'%}
+					{% if order_by == 'first_name' and reverse != '1' or order_by == '' %}
 						&uarr;
 					{% elif order_by == 'first_name' and reverse == '1' %}
 						&darr;
