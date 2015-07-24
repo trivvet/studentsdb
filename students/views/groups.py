@@ -2,7 +2,7 @@
 
 from django.shortcuts import render
 from django.http import HttpResponse
-from ..models import Group
+from ..models.groups import Group
 
 def groups_list(request):
 	groups = Group.objects.all()
@@ -17,12 +17,16 @@ def groups_list(request):
 	
 	lists = []
 	k = 1
+	if Group.objects.count() % 3 == 0:
+		counting = Group.objects.count() / 3
+	else:
+		counting = int(Group.objects.count() / 3) + 1
 	for e in range(Group.objects.count())[::3]:
 		lists.append(str(k))
 		k = k + 1
 	pages = {
 		'lists': lists,
-		'counting': Group.objects.count()
+		'counting': counting
 	}
 	
 	number_page = request.GET.get('page', '')

@@ -12,8 +12,24 @@
 	<table class="table table-bordered table-striped">
 		<thead>
 			<tr class="head_journal">
-				<th>#</th>
-				<th style="text-align:left">Студент</th>
+				{% with order_by=request.GET.order_by reverse=request.GET.reverse %}
+				<th><a href="{% url "journal" %}?order_by=id
+					{% if order_by == 'id' and reverse != '1' %}&amp;reverse=1{% endif %}">
+					№
+					{% if order_by == 'id' and reverse != '1' %}&uarr;
+					{% elif order_by == 'id' and reverse == '1' %}&darr;
+					{% endif %}
+					</a></th>
+				<th style="text-align:left"><a href="{% url "journal" %}
+					?order_by=student_name__first_name
+					{% if order_by == 'student_name__first_name' and reverse != '1' %}
+						&amp;reverse=1
+					{% endif %}">Студент
+					{% if order_by == 'student_name__first_name' and reverse != '1' %}&uarr;
+					{% elif order_by == 'student_name__first_name' and reverse == '1' %}&darr;
+					{% endif %}
+					</a></th>
+				{% endwith %}
 				<th class="day">Пн 1</th>
 				<th class="day">Вт 2</th>
 				<th class="day">Ср 3</th>
@@ -50,13 +66,14 @@
 			<!-- Студент Вейдер -->
 			<tr class="head_journal">
 				{% for student in students %}
-				<td>{{ forloop.counter }}</td>
-				<td><a title="Редагувати" href="{% url 'students_edit' student.id %}">
-					{{ student.first_name }} {{ student.last_name }}</a></td>
-				{% for x in 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' %}
+				<td>{{ student.student_name.id }}</td>
+				<td><a title="Редагувати" href="{% url 'students_edit' student.student_name.id %}">
+					{{ student.student_name.first_name }} {{ student.student_name.last_name }}</a></td>
+				{% for day in days %}
 				<td><div class="checkbox">
 					  <label>
-						<input type="checkbox" id="blankCheckbox" value="option{{ x }}" aria-label="...">
+						<input type="checkbox" id="blankCheckbox" 
+							value="1" aria-label="...">
 					  </label>
 					</div>
 				</td>
@@ -66,4 +83,8 @@
 		</tbody>
 	</table>
 </div>
+
+{% if pages.counting > 1 %}
+		{% include "students/pagination.html" with page='journal' order_by=request.GET.order_by reverse=request.GET.reverse %}
+{% endif %}
 {% endblock content %}

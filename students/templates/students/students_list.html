@@ -69,7 +69,6 @@ href="{% url "students_add" %}" role="button">
 		<tbody>
 			<!-- Студенти -->
 			{% for student in students %} 
-			{% if forloop.counter <= 3 %}
 			<tr>
 				<td>{{ student.id }}</td>
 				{% if student.photo %}
@@ -117,7 +116,6 @@ href="{% url "students_add" %}" role="button">
 					</div>
 				</td>
 			</tr>
-			{% endif %}
 			{% endfor %}
 
 		</tbody>

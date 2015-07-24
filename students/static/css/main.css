@@ -42,21 +42,21 @@ h5 {
 	margin-left:auto;
 	position:relative;
 }
-.form-group {
+/*.form-group {
 	display:inline-block;
 	width:200px;
-	margin-bottom: 0px;
-}
+	margin-bottom: 0px; 
+} 
 .row {
 	margin-bottom: 10px;
-}
+} 
 .col-xs-2 p {
 	text-align:right;
 	margin-top:6px;
 }
 .col-xs-2 p label {
 	font-weight:normal;
-}
+} */
 .head_form {
 	text-align: center;
 }
@@ -73,4 +73,10 @@ h5 {
 .btn-close {
 	color:#428bca;
 	background-color:white;
+}
+.help-block {
+	color:#F80000;
+}
+textarea, select, input {
+	max-width: 300px;
 }
