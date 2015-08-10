@@ -74,7 +74,7 @@
 		<div class="col-sm-10">
 			<input type="text" value="{{ request.POST.birthday }}" 
 				class="form-control" name="birthday" 
-				id="birthday" placeholder="1986-12-12" />
+				id="birthday" placeholder="YYYY-MM-DD" />
 			<span class="help-block	">{{ errors.birthday }}</span>
 		</div>
 	</div>
@@ -98,7 +98,8 @@
 		</label>
 		<div class="col-sm-10">
 			<input type="text" value="{{ request.POST.ticket }}" 
-				class="form-control" name="ticket" id="ticket" placeholder="100" />
+				class="form-control" name="ticket" id="ticket" 
+				placeholder="Введіть номер білету" />
 			<span class="help-block">{{ errors.ticket }}</span>
 		</div>
 	</div>

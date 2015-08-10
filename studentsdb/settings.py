@@ -33,7 +33,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = (
@@ -43,7 +42,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'students'
+    'crispy_forms',
+#    'django_contactme',
+    'students',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -101,7 +102,7 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'uk'
 
 TIME_ZONE = 'UTC'
 
@@ -121,4 +122,15 @@ STATIC_URL = '/static/'
 
 PORTAL_URL = 'http://localhost:8000'
 
+# Email settings
 
+ADMIN_EMAIL = 'trivvet@gmail.com'
+EMAIL_HOST = 'smtp.mail.yahoo.com'
+EMAIL_PORT = '465'
+EMAIL_HOST_USER = 'trivvet'
+EMAIL_HOST_PASSWORD = '0634414824'
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+
+# Use crispy forms
+CRISPY_TEMPLATE_PACK = 'bootstrap3'

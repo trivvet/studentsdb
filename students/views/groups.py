@@ -1,9 +1,27 @@
 # -*- coding: utf-8 -*-
 
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.core.urlresolvers import reverse
 from ..models.groups import Group
+from django.views.generic import DeleteView
+from django.contrib import messages
 
+class GroupDeleteView(DeleteView):
+	model = Group
+	template_name = 'students/groups_confirm_delete.html'
+	
+	def get_success_url(self):
+		messages.info(self.request, u'Групу видалено успішно')
+		return reverse('groups')
+	
+	def post(self, request, *args, **kwargs):
+		if request.POST.get('cancel_button') is not None:
+			messages.info(self.request, u'Редагування групи відмінено!')
+			return HttpResponseRedirect(reverse('groups'))
+		else:
+			return super(GroupDeleteView, self).post(request, *args, **kwargs)	
+		
 def groups_list(request):
 	groups = Group.objects.all()
 	
@@ -42,8 +60,8 @@ def groups_list(request):
 def groups_add(request):
 	return HttpResponse('<h1>Group Add Form</h1>')
 	
-def groups_edit(request, gid):
-	return HttpResponse('<h1>Edit Group %s</h1>' % gid)
+def groups_edit(request, pk):
+	return HttpResponse('<h1>Edit Group %s</h1>' % pk)
 	
 def groups_delete(request, gid):
 	return HttpResponse('<h1>Delete Group %s</h1>' % gid)

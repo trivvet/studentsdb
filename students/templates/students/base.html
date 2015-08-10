@@ -26,7 +26,10 @@
 				<select>
 					<option value="">Усі студенти</option>
 					{% for group in groups %}
-					<option value="">{{ group.title }}, {{ group.leader.first_name }} {{ group.leader.last_name }}</option>
+					<option value="{{ group.title }}">
+						{{ group.title }}, {{ group.leader.first_name }} 
+						{{ group.leader.last_name }}
+					</option>
 					{% endfor %}
 				</select>
 			</div>
@@ -53,6 +56,10 @@
 						{% if "/exams" in request.path %}class="active"{% endif %}>
 						<a href="{% url "exams" %}">Екзамени</a>
 					</li>
+					<li role="presentation"
+						{% if '/contact-admin' in request.path %}class="active"{% endif %}>
+						<a href="{% url "contact_admin" %}">Контакт</a>
+					</li>
 					{% block subheader %}{% endblock subheader %}
 				</ul>
 			</div>
@@ -65,7 +72,7 @@
 					{% for message in messages %}
 						<div {% if message.tags == 'success' %}
 							class="alert alert-success"{% endif %}
-							{% if message.tags == 'info' %}
+							{% if message.tags == 'info' or message.tags == 'warning' %}
 							class="alert alert-warning"{% endif %}>
 							{{ message }}
 						</div>
@@ -76,10 +83,17 @@
 				{% block content %}{% endblock content %}
 			</div>
 		</div>
+		
 		<!-- Footer -->
 		<div class="row" id="footer">
-			<div class="col-xs-12">{% block footer %}&copy; 2014 Сервіс Обліку Студентів{% endblock footer %}</div>
+			<div class="col-xs-12">{% block footer %}&copy; 2015 Сервіс Обліку Студентів{% endblock footer %}</div>
 		</div>
+		
+		<!-- Admin Button --> 
+		<a class="btn btn-primary btn-lg head" 
+			href="{{ static }}/admin/" role="button">
+			Адмінка
+		</a>
 	</div>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/bootstrap/3.0.0/js/bootstrap.min.js"></script>
