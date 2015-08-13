@@ -3,6 +3,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from ..models.students import Student
 from ..models.groups import Group
 from django.views.generic import DeleteView
 from django.contrib import messages
@@ -58,10 +59,39 @@ def groups_list(request):
 	return render(request, 'students/groups_list.html', {'groups': groups, 'pages': pages})
 
 def groups_add(request):
-	return HttpResponse('<h1>Group Add Form</h1>')
+	
+	if request.method == "POST":
+		if request.POST.get('add_button') is not None:
+			data = {'notes': request.POST.get('notes')}
+			errors = {}
+			
+			if not request.POST.get('title', '').split():
+				errors['title'] = u"Назва групи є обов’язковою"
+			else:	
+				simple_groups = Group.objects.filter(title=request.POST.get('title'))
+				if len(simple_groups) > 0:
+					errors['title'] = u'Група з назвою "%s" вже існує' % request.POST.get('title')
+				else:
+					data['title'] = request.POST.get('title')
+			if not errors:
+				groups = Group(**data)
+				groups.save()
+				messages.success(request, u'Групу %s додано!' % request.POST['title'])
+				return HttpResponseRedirect(reverse('groups'))
+			else:
+				return render(request, 'students/groups_add.html', {'errors': errors})
+		elif request.POST.get('cancel_button') is not None:
+			messages.info(request, u'Додавання групи відмінено')
+			return HttpResponseRedirect(reverse('groups'))
+	else:
+		return render(request, 'students/groups_add.html', {})
 	
 def groups_edit(request, pk):
-	return HttpResponse('<h1>Edit Group %s</h1>' % pk)
+	if request.method == 'POST':
+		return HttpResponseRedirect(reverse('groups'))
+	else:
+		group = Group.objects.get(id=pk)
+		return render(request, 'students/groups_edit.html', {'group':group})
 	
 def groups_delete(request, gid):
 	return HttpResponse('<h1>Delete Group %s</h1>' % gid)

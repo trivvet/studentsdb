@@ -58,10 +58,16 @@
 				<td><a title="Редагувати" href="{% url "groups_edit" group.id %}">
 						{{ group.title }}
 					</a></td>
-				<td><a title="Редагувати" 
+				<td>
+					{% if group.leader.id %}
+					<a title="Редагувати" 
 					href="{% url "students_edit" group.leader.id %}">
 						{{ group.leader.first_name }} {{ group.leader.last_name }}
-					</a></td>
+					</a>
+					{% else %}
+					<span style="color: red">Староста групи не вибраний!</span>
+					{% endif %}
+				</td>
 				<td>
 					<div class="dropdown">
 						<button class="btn btn-default dropdown-toggle" 

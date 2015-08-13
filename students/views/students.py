@@ -51,7 +51,7 @@ class StudentUpdateView(UpdateView):
 	form_class = StudentUpdateForm
 	
 	def get_success_url(self):
-		messages.success(self.request, u'Студента успішно збережено!')
+		messages.success(self.request, u'Дані студента успішно змінено!')
 		return reverse('home')
 		
 	def post(self, request, *args, **kwargs):
@@ -91,11 +91,11 @@ def students_list(request):
 	
 	lists = []
 	k = 1
-	if Student.objects.count() % 3 == 0:
-		counting = Student.objects.count() / 3
+	if Student.objects.count() % 5 == 0:
+		counting = Student.objects.count() / 5
 	else:
-		counting = int(Student.objects.count() / 3) + 1
-	for e in range(Student.objects.count())[::3]:
+		counting = int(Student.objects.count() / 5) + 1
+	for e in range(Student.objects.count())[::5]:
 		lists.append(str(k))
 		k = k + 1
 	pages = {
@@ -105,11 +105,11 @@ def students_list(request):
 	
 	number_page = request.GET.get('page')
 	if number_page:
-		start = (int(number_page) - 1) * 3
-		end = start + 3
+		start = (int(number_page) - 1) * 5
+		end = start + 5
 		students = students[start:end]
 	else:
-		students = students[0:3]
+		students = students[0:5]
 	
 	groups = Group.objects.all()
 	return render(request, 'students/students_list.html',
