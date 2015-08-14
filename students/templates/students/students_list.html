@@ -62,6 +62,17 @@ href="{% url "students_add" %}" role="button">
 						&darr;
 					{% endif %}
 					</a></th>
+				<th><a href="{% url "home" %}?order_by=student_group__title
+					{% if order_by == 'student_group__title' and reverse != '1' %}
+						&amp;reverse=1
+					{% endif %}">
+					Група
+					{% if order_by == 'student_group__title' and reverse != '1' %}
+						&uarr;
+					{% elif order_by == 'student_group__title' and reverse == '1' %}
+						&darr;
+					{% endif %}
+					</a></th>
 				<th>Дії</th>
 			</tr>
 		</thead>
@@ -87,6 +98,7 @@ href="{% url "students_add" %}" role="button">
 						{{ student.last_name }}
 					</a></td>
 				<td>{{ student.ticket }}</td>
+				<td>{{ student.student_group.title }}</td>
 				<td>
 					<div class="dropdown">
 						<button class="btn btn-default dropdown-toggle" 

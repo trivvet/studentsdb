@@ -66,7 +66,7 @@ class StudentDeleteView(DeleteView):
 	template_name = 'students/students_confirm_delete.html'
 	
 	def get_success_url(self):
-		messages.info(self.request, u'Студента успішно видалено')
+		messages.success(self.request, u'Студента успішно видалено')
 		return reverse('home')
 		
 	def post(self, request, *args, **kwargs):
@@ -81,7 +81,7 @@ def students_list(request):
 	students = Student.objects.all()
 	
 	order_by = request.GET.get('order_by', '')
-	if order_by in ('id', 'last_name', 'first_name', 'ticket'):
+	if order_by in ('id', 'last_name', 'first_name', 'ticket', 'student_group__title'):
 		students = students.order_by(order_by)
 		if request.GET.get('reverse', '') == '1':
 			students = students.reverse()
@@ -189,6 +189,7 @@ def students_add(request):
 			else:
 			# Якщо дані були введені некоректно:
 				# Віддаємо шаблон форми разом із знайденими помилками
+				messages.error(request, u"Будь-ласка виправте наступні помилки")
 				return render(request, 'students/students_add.html', 
 					{'groups': groups, 'errors': errors})
 		# Якщо кнопка скасування була натиснута:	

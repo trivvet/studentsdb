@@ -67,18 +67,17 @@
 		<!-- Main page -->
 		<div class="row" id="content-columns">
 			<div class="col-xs-12">
-				{% block status_message %}
 				{% if messages %}
 					{% for message in messages %}
-						<div {% if message.tags == 'success' %}
-							class="alert alert-success"{% endif %}
-							{% if message.tags == 'info' or message.tags == 'warning' %}
-							class="alert alert-warning"{% endif %}>
+						<div {% if message.tags == 'success' or message.tags == 'info' %}
+							class="alert alert-{{ message.tags }}
+							{% elif message.tags == 'error' %}
+							class='alert alert-danger'
+							{% endif %}">
 							{{ message }}
 						</div>
 					{% endfor %}
 				{% endif %}
-				{% endblock %}
 				<h2 class="head">{% block title %}{% endblock title %}</h2>
 				{% block content %}{% endblock content %}
 			</div>

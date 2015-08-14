@@ -13,16 +13,20 @@ class GroupDeleteView(DeleteView):
 	template_name = 'students/groups_confirm_delete.html'
 	
 	def get_success_url(self):
-		messages.info(self.request, u'Групу видалено успішно')
+		messages.success(self.request, u'Групу видалено успішно')
 		return reverse('groups')
 	
-	def post(self, request, *args, **kwargs):
+	def post(self, request, pk, *args, **kwargs):
 		if request.POST.get('cancel_button') is not None:
-			messages.info(self.request, u'Редагування групи відмінено!')
+			messages.info(self.request, u'Видалення групи відмінено!')
+			return HttpResponseRedirect(reverse('groups'))
+		elif Student.objects.filter(student_group=Group.objects.get(pk=pk)):
+			messages.error(self.request, u"Видалення неможливе, в групі присутні студенти")
 			return HttpResponseRedirect(reverse('groups'))
 		else:
 			return super(GroupDeleteView, self).post(request, *args, **kwargs)	
-		
+
+# Group list		
 def groups_list(request):
 	groups = Group.objects.all()
 	
@@ -58,6 +62,7 @@ def groups_list(request):
 	
 	return render(request, 'students/groups_list.html', {'groups': groups, 'pages': pages})
 
+# Adding group's form
 def groups_add(request):
 	
 	if request.method == "POST":
@@ -79,20 +84,63 @@ def groups_add(request):
 				messages.success(request, u'Групу %s додано!' % request.POST['title'])
 				return HttpResponseRedirect(reverse('groups'))
 			else:
+				messages.error(request, u'Будь-ласка виправте наступні помилки')
 				return render(request, 'students/groups_add.html', {'errors': errors})
 		elif request.POST.get('cancel_button') is not None:
 			messages.info(request, u'Додавання групи відмінено')
 			return HttpResponseRedirect(reverse('groups'))
 	else:
 		return render(request, 'students/groups_add.html', {})
-	
+
+# Edit group's form	
 def groups_edit(request, pk):
+	errors = {}
+	students = Student.objects.filter(student_group=pk)
+	group = Group.objects.filter(id=pk)
+	if len(students) < 1:
+		errors['leader'] = u"В групі немає жодного студента"
 	if request.method == 'POST':
-		return HttpResponseRedirect(reverse('groups'))
+		if request.POST.get('add_button') is not None:
+			data = {'title': request.POST.get('title'), 'notes': request.POST.get('notes')}
+			if request.POST.get('leader'):
+				k = len(Group.objects.filter(leader=request.POST.get('leader')))
+				if k == 0 or Group.objects.get(leader=request.POST.get('leader')) == Group.objects.get(pk=pk):
+					u = 'yes'
+					data['leader'] = Student.objects.get(pk=request.POST.get('leader'))
+				else:
+					errors['leader'] = u"Даний студент є старостою іншої групи"
+			data['id'] = pk
+			if errors:
+				leader = Student.objects.get(pk=request.POST.get('leader'))
+				messages.error(request, u"Будь-ласка виправте наступні помилки")
+				return render(request, 'students/groups_edit.html', 
+					{'errors':errors, 'students':students, 'leader':leader})
+			else:
+				groups = Group(**data)
+				groups.save()
+				messages.success(request, u"Група %s успішно змінена" % request.POST.get('title'))
+				return HttpResponseRedirect(reverse('groups'))
+		elif request.POST.get('cancel_button') is not None:
+			messages.info(request, u"Редагування групи відмінено")
+			return HttpResponseRedirect(reverse('groups'))
 	else:
 		group = Group.objects.get(id=pk)
-		return render(request, 'students/groups_edit.html', {'group':group})
+		return render(request, 'students/groups_edit.html', {'group':group, 'errors':errors, 'students':students})
 	
-def groups_delete(request, gid):
-	return HttpResponse('<h1>Delete Group %s</h1>' % gid)
+def groups_delete(request, pk):
+	if request.method == "POST":
+		if request.POST.get('delete_button') is not None:
+			if Student.objects.filter(student_group=Group.objects.get(pk=pk)):
+				messages.error(request, u"Видалення неможливе, в групі присутні студенти")
+			else:
+				messages.success(request, u"Група %s успішно видалена!" % Group.objects.get(pk=pk))
+				group_delete = Group.objects.get(pk=pk)
+				group_delete.delete()
+			return HttpResponseRedirect(reverse('groups'))
+		elif request.POST.get('cancel_button') is not None:
+			messages.info(request, u"Видалення групи відмінено")
+			return HttpResponseRedirect(reverse('groups'))
+	else:
+		group = Group.objects.get(id=pk)
+		return render(request, 'students/groups_delete.html', {'group': group})
 	

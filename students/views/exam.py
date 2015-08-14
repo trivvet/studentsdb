@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.core.urlresolvers import reverse
+from django.contrib import messages
 from ..models.groups import Group
 from ..models.exams import Exam
 
@@ -22,7 +24,19 @@ def exams_list(request):
 		{'exams': exams, 'groups': groups})
 		
 def exams_add(request):
-	return HttpResponse('<h1>Exam Add Form</h1>')
+	if request.method == "POST":
+		if request.POST.get('add_button') is not None:
+			data = {}
+			errors = {}
+			
+			messages.success(request, u"Екзамен додано!")
+			return HttpResponseRedirect(reverse('exams'))
+		elif request.POST.get('close_button') is not None:
+			messages.info(request, u"Додавання екзамену відмінено!")
+			return HttpResponseRedirect(reverse('exams'))
+	else:
+		groups = Group.objects.all()
+		return render(request, 'students/exams_add.html', {'groups': groups})
 	
 def exams_edit(request, sid):
 	return HttpResponse('<h1>Edit Exam %s</h1>' % sid)
