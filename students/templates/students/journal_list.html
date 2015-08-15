@@ -69,7 +69,7 @@
 				<td>{{ student.student_name.id }}</td>
 				<td><a title="Редагувати" href="{% url 'students_edit' student.student_name.id %}">
 					{{ student.student_name.first_name }} {{ student.student_name.last_name }}</a></td>
-				{% for day in days %}
+				{% for day in days|make_list %}
 				<td><div class="checkbox">
 					  <label>
 						<input type="checkbox" id="blankCheckbox" 
@@ -84,7 +84,7 @@
 	</table>
 </div>
 
-{% if pages.counting > 1 %}
+{% if pages|length > 1 %}
 		{% include "students/pagination.html" with page='journal' order_by=request.GET.order_by reverse=request.GET.reverse %}
 {% endif %}
 {% endblock content %}

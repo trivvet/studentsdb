@@ -100,4 +100,8 @@ href="{% url "exams_add" %}" role="button">
 	
 </div>
 
+{% if pages|length > 1 %}
+		{% include "students/pagination.html" with page='exams' order_by=request.GET.order_by reverse=request.GET.reverse %}
+{% endif %}
+
 {% endblock content %}

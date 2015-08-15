@@ -111,7 +111,7 @@ href="{% url "students_add" %}" role="button">
 							aria-labelledby="dropdownMenu1">
 							<li role="presentation">
 								<a role="menuitem" tabindex="-1" 
-									ref="{% url "journal" %}">
+									href="{% url "journal" %}">
 									Відвідування
 								</a></li>
 							<li role="presentation">
@@ -136,7 +136,7 @@ href="{% url "students_add" %}" role="button">
 	
 </div>
 
-{% if pages.counting > 1 %}
+{% if pages|length > 1 %}
 		{% include "students/pagination.html" with page='home' order_by=request.GET.order_by reverse=request.GET.reverse %}
 {% endif %}
 {% endblock content %}

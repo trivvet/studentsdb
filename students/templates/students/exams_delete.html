@@ -1,0 +1,21 @@
+{% extends "students/base.html" %}
+
+{% load static from staticfiles %}
+
+{% block meta_title %}Видалити групу{% endblock meta_title %}
+
+{% block title %}Видалити групу{% endblock title %}
+
+{% block content %}
+
+<form class="form-horizontal" action="." method="post">
+	{% csrf_token %}
+	<p>Ви дійсно хочете видалити екзамен {{ exam.title }}?</p>
+	<button type="submit" class="btn btn-danger" name="delete_button">Так</button>
+	<button type="submit" class="btn btn-close" style="margin-left:10px"
+				name="cancel_button">Скасувати</button><br /><br />
+</form>
+
+
+{% endblock content %}
+

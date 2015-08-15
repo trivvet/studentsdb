@@ -38,27 +38,17 @@ def groups_list(request):
 	else:
 		groups = groups.order_by('title')
 	
-	lists = []
-	k = 1
-	if Group.objects.count() % 3 == 0:
-		counting = Group.objects.count() / 3
-	else:
-		counting = int(Group.objects.count() / 3) + 1
-	for e in range(Group.objects.count())[::3]:
-		lists.append(str(k))
-		k = k + 1
-	pages = {
-		'lists': lists,
-		'counting': counting
-	}
-	
-	number_page = request.GET.get('page', '')
-	if number_page:
-		start = (int(number_page) - 1) * 3
-		end = start + 3
-		groups = groups[start:end]
-	else:
-		groups = groups[0:3]
+	pages = []
+	k = 0
+	if not int(groups.count() % 3) == 0:
+		k = 1
+	for i in range(groups.count() / 3 + k):
+		pages.append(str(i+1))
+		
+	number_page = int(request.GET.get('page', '1'))
+	if number_page > len(pages):
+		number_page = len(pages)
+	groups = groups[number_page * 3 - 3:number_page * 3]
 	
 	return render(request, 'students/groups_list.html', {'groups': groups, 'pages': pages})
 

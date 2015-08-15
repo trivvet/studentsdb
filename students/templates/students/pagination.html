@@ -5,14 +5,17 @@
 				<span aria-hidden="true">&laquo;</span>
 			</a>
 		</li>
-		{% for p in pages.lists %}
+		{% for p in pages %}
 			<li {% if request.GET.page == p or p == '1' and request.GET.page == None %}
-				class="active" {% endif%}>
+				class="active" 
+				{% elif request.GET.page|add:0 > pages|length and p|add:0 == pages|length and request.GET.page != None %}
+				class="active" 
+				{% endif %}>
 				<a href="{% url page %}?page={{ p }}&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}">{{ p }}</a>
 			</li>
 		{% endfor %}
 		<li>
-			<a href="{% url page %}?page={{ pages.counting }}&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}" 
+			<a href="{% url page %}?page={{ pages|length }}&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}" 
 				aria-label="Next">
 				<span aria-hidden="true">&raquo;</span>
 			</a>

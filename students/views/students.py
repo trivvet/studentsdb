@@ -88,28 +88,17 @@ def students_list(request):
 	else:
 		students = students.order_by('first_name')
 	
-	
-	lists = []
-	k = 1
-	if Student.objects.count() % 5 == 0:
-		counting = Student.objects.count() / 5
-	else:
-		counting = int(Student.objects.count() / 5) + 1
-	for e in range(Student.objects.count())[::5]:
-		lists.append(str(k))
-		k = k + 1
-	pages = {
-		'lists': lists,
-		'counting': counting
-	}
-	
-	number_page = request.GET.get('page')
-	if number_page:
-		start = (int(number_page) - 1) * 5
-		end = start + 5
-		students = students[start:end]
-	else:
-		students = students[0:5]
+	pages = []
+	k = 0
+	if not students.count() % 3 == 0:
+		k = 1
+	for i in range(students.count() / 5 + k):
+		pages.append(str(i+1))
+		
+	number_page = int(request.GET.get('page', '1'))
+	if number_page > len(pages):
+		number_page = len(pages)
+	students = students[number_page * 3 - 3: number_page * 3]
 	
 	groups = Group.objects.all()
 	return render(request, 'students/students_list.html',

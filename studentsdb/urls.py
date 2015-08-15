@@ -50,9 +50,9 @@ urlpatterns = patterns('',
 	# Exams
     url(r'^exams/$', 'students.views.exam.exams_list', name='exams'),
     url(r'^exams/add/$', 'students.views.exam.exams_add', name='exams_add'),
-    url(r'^exams/(?P<sid>\d+)/edit/$', 'students.views.exam.exams_edit', 
+    url(r'^exams/(?P<pk>\d+)/edit/$', 'students.views.exam.exams_edit', 
 		name='exams_edit'),
-    url(r'^exams/(?P<sid>\d+)/delete/$', 'students.views.exam.exams_delete', 
+    url(r'^exams/(?P<pk>\d+)/delete/$', 'students.views.exam.exams_delete', 
 		name='exams_delete'),
 	
 	# Admin	
