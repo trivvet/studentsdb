@@ -92,7 +92,7 @@ def students_list(request):
 	k = 0
 	if not students.count() % 3 == 0:
 		k = 1
-	for i in range(students.count() / 5 + k):
+	for i in range(students.count() / 3 + k):
 		pages.append(str(i+1))
 		
 	number_page = int(request.GET.get('page', '1'))
