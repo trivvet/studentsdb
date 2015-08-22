@@ -15,12 +15,15 @@ Including another URLconf
 """
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from django.views.generic import TemplateView
 from .settings import MEDIA_ROOT, DEBUG
 # from students.views.students import StudentList
 from students.views.contact_admin import ContactView
-from students.views.groups import GroupDeleteView
+from students.views.groups import GroupDeleteView, GroupUpdeteView
 from students.views.students import StudentUpdateView, StudentDeleteView
-# from django import contact_form
+from students.views.exam import ExamsUpdateView
+from contact_form.views import ContactFormView
+from contact_form import urls
 
 
 urlpatterns = patterns('',
@@ -39,8 +42,10 @@ urlpatterns = patterns('',
 	url(r'^groups/$', 'students.views.groups.groups_list', name='groups'),
 	url(r'^groups/add/$', 'students.views.groups.groups_add',
 		name='groups_add'),
-	url(r'^groups/(?P<pk>\d+)/edit/$', 'students.views.groups.groups_edit',
-		name='groups_edit'),
+	url(r'^groups/(?P<pk>\d+)/edit/$', GroupUpdeteView.as_view(), name='groups_edit'),
+
+#	url(r'^groups/(?P<pk>\d+)/edit/$', 'students.views.groups.groups_edit',
+#		name='groups_edit'),
 	url(r'^groups/(?P<pk>\d+)/delete/$', 'students.views.groups.groups_delete',
 		name='groups_delete'),
 		
@@ -50,8 +55,10 @@ urlpatterns = patterns('',
 	# Exams
     url(r'^exams/$', 'students.views.exam.exams_list', name='exams'),
     url(r'^exams/add/$', 'students.views.exam.exams_add', name='exams_add'),
-    url(r'^exams/(?P<pk>\d+)/edit/$', 'students.views.exam.exams_edit', 
-		name='exams_edit'),
+	url(r'^exams/(?P<pk>\d+)/edit/$', ExamsUpdateView.as_view(), name='exams_edit'),
+   
+#    url(r'^exams/(?P<pk>\d+)/edit/$', 'students.views.exam.exams_edit', 
+#		name='exams_edit'),
     url(r'^exams/(?P<pk>\d+)/delete/$', 'students.views.exam.exams_delete', 
 		name='exams_delete'),
 	
@@ -65,8 +72,10 @@ urlpatterns = patterns('',
 #		name='contact_admin')
 
 	# Contact Admin Form django-contact-form 1.1
-#	url(r'^contact-admin/$', include('contact_form.urls'), name='contact_admin')
+#	url(r'^contact-admin/$', include(urls), name='contact_admin')
+
 )
+	
 
 	
 

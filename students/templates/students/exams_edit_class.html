@@ -1,0 +1,23 @@
+{% extends "students/base.html" %}
+
+{% load static from staticfiles %}
+
+{% load crispy_forms_tags %}
+
+{% block meta_title %}Редагувати екзамен{% endblock meta_title %}
+
+{% block title %}Редагувати екзамен{% endblock title %}
+
+{% block messages %}
+{% if form.errors %}
+	<div class='alert alert-danger'>
+		Будь-ласка виправте наступні помилки
+	</div>
+{% endif %}
+{% endblock messages %}
+
+{% block content %}
+
+{% crispy form %}
+
+{% endblock content %}

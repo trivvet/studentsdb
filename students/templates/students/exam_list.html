@@ -20,17 +20,17 @@ href="{% url "exams_add" %}" role="button">
 			{% with order_by=request.GET.order_by reverse=request.GET.reverse %}
 			<tr>
 				<th><a href='{% url "exams" %}?order_by=id
-					{% if order_by == 'id' and reverse != '1' or order_by == '' %}
+					{% if order_by == 'id' and reverse != '1' %}
 						&amp;reverse=1
 					{% endif %}'>
-					№{% if order_by == 'id' and reverse != '1' or order_by == '' %}&uarr;
+					№{% if order_by == 'id' and reverse != '1' %}&uarr;
 					{% elif order_by == 'id' and reverse == '1' %}&darr;
 					{% endif %}
 					</a></th>
 				<th><a href='{% url "exams" %}?order_by=matter
-					{% if order_by == 'matter' and reverse != '1' %}
+					{% if order_by == 'matter' and reverse != '1' or order_by == '' %}
 					&amp;reverse=1{% endif %}'>
-					Назва предмету{% if order_by == 'matter' and reverse != '1' %}&uarr;
+					Назва предмету{% if order_by == 'matter' and reverse != '1' or order_by == '' %}&uarr;
 					{% elif order_by == 'matter' and reverse == '1' %}&darr;
 					{% endif %}
 					</a></th>

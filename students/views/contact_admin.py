@@ -3,7 +3,7 @@
 from django.shortcuts import render
 from django import forms
 from django.contrib import messages
-from django.core.mail import send_mail
+from django.core.mail import send_mail, mail_admins
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from crispy_forms.helper import FormHelper
@@ -56,7 +56,7 @@ class ContactView(FormView):
 		subject = form.cleaned_data['subject'] + '(' + form.cleaned_data['from_email'] + ')'
 		message = form.cleaned_data['message']
 		
-		try: send_mail(subject, message, 'trivvet@yahoo.com.ua', [ADMIN_EMAIL])
+		try: mail_admins(subject, message, 'trivvet@yahoo.com.ua')
 		except Exception:
 			messages.warning(self.request, u"Під час відправки листа виникла непередбачувана помилка. " \
 				u"Спробуйте скористатися даною формою пізніше")

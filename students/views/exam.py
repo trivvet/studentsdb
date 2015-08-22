@@ -7,8 +7,56 @@ from django.contrib import messages
 from datetime import datetime
 from ..models.groups import Group
 from ..models.exams import Exam
+from django.forms import ModelForm
+from django.views.generic import UpdateView
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit, Div
+from crispy_forms.bootstrap import FormActions
 
 # Views for Students
+
+class ExamsUpdateForm(ModelForm):
+	class Meta:
+		model  = Exam
+		
+	def __init__(self, *args, **kwargs):
+		super(ExamsUpdateForm, self).__init__(*args, **kwargs)
+		self.helper = FormHelper(self)
+        
+		self.helper.form_action = reverse('exams_edit',
+			kwargs={'pk': kwargs['instance'].id})
+		self.helper.from_method = 'POST'
+		self.helper.form_class = 'form-horizontal'
+		
+		self.helper.help_text_inline = True
+		self.helper.error_text_inline = True
+		self.helper.html5_required = True
+		self.helper.label_class = 'col-sm-2'
+		self.helper.field_class = 'col-sm-10'
+
+		self.helper.layout.append('')
+		self.helper.layout[-1] = FormActions(
+				Div('1', css_class='col-sm-2'),
+				Submit('save_button', u'Зберегти', css_class='btn btn-primary'),
+				Submit('cancel_button', u'Скасувати', css_class='btn btn-link')
+			)
+        
+class ExamsUpdateView(UpdateView):
+	model = Exam
+	template_name = 'students/exams_edit_class.html'
+	form_class = ExamsUpdateForm
+	
+	def get_success_url(self):
+		messages.success(self.request, u"Екзамен успішно відредаговано!")
+		return reverse('exams')
+		
+	def post(self, request, *args, **kwargs):
+		if request.POST.get('cancel_button'):
+			messages.info(request, u"Редагування екзамену відмінено")
+			return HttpResponseRedirect(reverse('exams'))
+		else:
+			return super(ExamsUpdateView, self).post(request, *args, **kwargs)
+
 def exams_list(request):
 	exams = Exam.objects.all()
 	
@@ -18,7 +66,7 @@ def exams_list(request):
 		if request.GET.get('reverse', '') == '1':
 			exams = exams.reverse()
 	else:
-		exams = exams.order_by('id')
+		exams = exams.order_by('matter')
 	
 	pages = []
 	k = 0
@@ -77,7 +125,7 @@ def exams_add(request):
 			if not errors:
 				exam = Exam(**data)
 				exam.save()
-				messages.success(request, u"Екзамен успішно додано!")
+				messages.success(request, u"Екзамен %s успішно додано!" % matter)
 				return HttpResponseRedirect(reverse('exams'))
 			else:
 				return render(request, 'students/exams_add.html', {'groups': groups, 'errors': errors})

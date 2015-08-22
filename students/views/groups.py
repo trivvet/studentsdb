@@ -5,8 +5,23 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from ..models.students import Student
 from ..models.groups import Group
-from django.views.generic import DeleteView
+from django.views.generic import DeleteView, UpdateView
 from django.contrib import messages
+
+class GroupUpdeteView(UpdateView):
+	model = Group
+	template_name = 'students/groups_edit_class.html'
+	
+	def get_success_url(self):
+		messages.success(self.request, u'Групу успішно змінено')
+		return reverse('groups')
+		
+	def post(self, request, *args, **kwargs):
+		if request.POST.get('cancel_button') is not None:
+			messages.info(request, u'Редагування групи відмінено')
+			return HttpResponseRedirect(reverse('groups'))
+		else:
+			return super(GroupUpdeteView, self).post(request, *args, **kwargs)
 
 class GroupDeleteView(DeleteView):
 	model = Group

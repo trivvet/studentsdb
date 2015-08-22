@@ -11,7 +11,7 @@ from django import forms
 from django.forms import ModelForm, ValidationError
 from crispy_forms.helper import FormHelper
 from crispy_forms.bootstrap import FormActions, PrependedText
-from crispy_forms.layout import Submit, Layout, Field
+from crispy_forms.layout import Submit, Layout, Div
 from datetime import datetime
 from PIL import Image
 
@@ -40,6 +40,7 @@ class StudentUpdateForm(ModelForm):
 		
 		# form buttons
 		self.helper.layout[-1] = FormActions(
+			Div('1', css_class='col-sm-2'),
 			Submit('add_button', u'Зберегти', css_class="btn btn-primary"),
 			Submit('cancel_button', u'Скасувати', css_class="btn btn-link"),
 			)
@@ -160,11 +161,11 @@ def students_add(request):
 					Image.open(photo).verify()
 				except: 
 					errors['photo'] = u"Оберіть файл зображення"
-				
-				if not photo.size < 2097152:
-					errors['photo'] = u"Оберіть файл розміром до 2МБ"
 				else:
-					data['photo'] = photo
+					if not photo.size < 2097152:
+						errors['photo'] = u"Оберіть файл розміром до 2МБ"
+					else:
+						data['photo'] = photo
 				
 			# Якщо дані були введені коректно:
 			if not errors:

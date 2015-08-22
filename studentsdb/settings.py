@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
+    'contact_form',
 #    'django_contactme',
     'students',
 )
@@ -125,6 +126,7 @@ PORTAL_URL = 'http://localhost:8000'
 # Email settings
 
 ADMIN_EMAIL = 'trivvet@gmail.com'
+ADMINS = ('trivvet', 'trivvet@gmail.com')
 EMAIL_HOST = 'smtp.mail.yahoo.com'
 EMAIL_PORT = '465'
 EMAIL_HOST_USER = 'trivvet'
