@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.forms import ModelForm, ValidationError
 from models.students import Student
 from models.groups import Group
+from models.monthjournal import MonthJournal
 from models.journal import Student_visiting
 from models.exams import Exam
 
@@ -71,5 +72,6 @@ class GroupAdmin(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Group, GroupAdmin)
+admin.site.register(MonthJournal)
 admin.site.register(Student_visiting)
 admin.site.register(Exam)

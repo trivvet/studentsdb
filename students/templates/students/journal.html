@@ -1,0 +1,86 @@
+{% extends "students/base.html" %}
+
+{% load static from staticfiles %}
+
+{% block meta_title %}Облік Відвідування{% endblock meta_title %}
+
+{% block title %}Облік Відвідування{% endblock title %}
+
+{% block content %}
+
+{% if not students %}
+
+<div class='alert alert-warning'>
+	Поки немає жодного студента в базі. Будь, ласка 
+		<a href='{% url 'students_add' %}'>додайте</a> першого.
+</div>
+
+{% else %}
+
+<p id='journal-nav' class='text-center'>
+	<a href='?month={{ prev_month }}' title='Попередній місяць'>&larr;</a>
+	<strong>{{ month_verbose }} {{ year }}</strong>
+	<a href='?month={{ next_month }}' title='Наступний місяці'>&rarr;</a>
+</p>
+
+<table class="table table-hover table-bordered table-striped"
+		id="students-journal">
+	<thead>
+		<tr class="header">
+			{% with order_by=request.GET.order_by reverse=request.GET.reverse %}
+			<th><a href="{% url "journal" %}?order_by=id
+				{% if order_by == 'id' and reverse != '1' %}&amp;reverse=1{% endif %}">
+				№
+				{% if order_by == 'id' and reverse != '1' %}&uarr;
+				{% elif order_by == 'id' and reverse == '1' %}&darr;
+				{% endif %}
+				</a></th>
+			<th style="text-align:left"><a href="{% url "journal" %}
+				?order_by=student_name__first_name
+				{% if order_by == 'student_name__first_name' and reverse != '1' %}
+					&amp;reverse=1
+				{% endif %}">Студент
+				{% if order_by == 'student_name__first_name' and reverse != '1' %}&uarr;
+				{% elif order_by == 'student_name__first_name' and reverse == '1' %}&darr;
+				{% endif %}
+				</a></th>
+			{% endwith %}
+			{% for day in month_header %}
+			<th class="day-header">
+				{{ day.verbose }}
+				<br />
+				{{ day.day }}
+			</th>
+			{% endfor %}
+		</tr>
+	</thead>
+	<tbody>
+		{% csrf_token %}
+		
+		{% for student in students %}
+		<tr>
+			<td>
+				{{ forloop.counter|add:page }}
+			</td>
+			<td><a title="Редагувати" href="{% url 'students_edit' student.id %}">
+				{{ student.full_name }}</a></td>
+			{% for day in student.days %}
+			<td class='day-box'>
+				<input type="checkbox" data-student-id='{{ student.id }}'
+					data-date='{{ day.date }}' data-url="{{ student.update_url }}" 
+					value="1" {% if day.present %} checked='checked' {% endif %} />
+			</td>
+			{% endfor %}
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+	
+{% if pages|length > 1 %}
+	{% include "students/pagination.html" with page='journal' order_by=request.GET.order_by reverse=request.GET.reverse %}
+{% endif %}
+
+{% endif %}
+
+
+{% endblock content %}

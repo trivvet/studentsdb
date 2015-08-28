@@ -31,12 +31,7 @@ h5 {
 	margin-bottom:20px;
 	vertical-align:bottom;
 }
-.head_journal>th, .head_journal>td>div  {
-	text-align:center;
-}
-.checkbox>label {
-	padding:0;
-}
+
 #blankCheckbox {
 	margin-right:auto;
 	margin-left:auto;
@@ -57,9 +52,7 @@ h5 {
 .col-xs-2 p label {
 	font-weight:normal;
 } */
-.head_form {
-	text-align: center;
-}
+
 .row:nth-child(8) {
 	margin-top:20px;
 }

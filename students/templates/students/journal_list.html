@@ -9,7 +9,7 @@
 	<a href="#">&larr;</a> Червень 2015 <a href="#">&rarr;</a></h5>
 <div>
 	<!-- Table of Student -->
-	<table class="table table-bordered table-striped">
+	<table class="table table-bordered table-striped table-hover">
 		<thead>
 			<tr class="head_journal">
 				{% with order_by=request.GET.order_by reverse=request.GET.reverse %}
@@ -30,47 +30,47 @@
 					{% endif %}
 					</a></th>
 				{% endwith %}
-				<th class="day">Пн 1</th>
-				<th class="day">Вт 2</th>
-				<th class="day">Ср 3</th>
-				<th class="day">Чт 4</th>
-				<th class="day">Пт 5</th>
-				<th class="day">Сб 6</th>
-				<th class="day">Нд 7</th>
-				<th class="day">Пн 8</th>
-				<th class="day">Вт 9</th>
-				<th class="day">Ср 10</th>
-				<th class="day">Чт 11</th>
-				<th class="day">Пт 12</th>
-				<th class="day">Сб 13</th>
-				<th class="day">Нд 14</th>
-				<th class="day">Пн 15</th>
-				<th class="day">Вт 16</th>
-				<th class="day">Ср 17</th>
-				<th class="day">Чт 18</th>
-				<th class="day">Пт 19</th>
-				<th class="day">Сб 20</th>
-				<th class="day">Нд 21</th>
-				<th class="day">Пн 22</th>
-				<th class="day">Вт 23</th>
-				<th class="day">Ср 24</th>
-				<th class="day">Чт 25</th>
-				<th class="day">Пт 26</th>
-				<th class="day">Сб 27</th>
-				<th class="day">Нд 28</th>
-				<th class="day">Пн 29</th>
-				<th class="day">Вт 30</th>
+				<th class="day-header">Пн 1</th>
+				<th class="day-header">Вт 2</th>
+				<th class="day-header">Ср 3</th>
+				<th class="day-header">Чт 4</th>
+				<th class="day-header">Пт 5</th>
+				<th class="day-header">Сб 6</th>
+				<th class="day-header">Нд 7</th>
+				<th class="day-header">Пн 8</th>
+				<th class="day-header">Вт 9</th>
+				<th class="day-header">Ср 10</th>
+				<th class="day-header">Чт 11</th>
+				<th class="day-header">Пт 12</th>
+				<th class="day-header">Сб 13</th>
+				<th class="day-header">Нд 14</th>
+				<th class="day-header">Пн 15</th>
+				<th class="day-header">Вт 16</th>
+				<th class="day-header">Ср 17</th>
+				<th class="day-header">Чт 18</th>
+				<th class="day-header">Пт 19</th>
+				<th class="day-header">Сб 20</th>
+				<th class="day-header">Нд 21</th>
+				<th class="day-header">Пн 22</th>
+				<th class="day-header">Вт 23</th>
+				<th class="day-header">Ср 24</th>
+				<th class="day-header">Чт 25</th>
+				<th class="day-header">Пт 26</th>
+				<th class="day-header">Сб 27</th>
+				<th class="day-header">Нд 28</th>
+				<th class="day-header">Пн 29</th>
+				<th class="day-header">Вт 30</th>
 			</tr>
 		</thead>
 		<tbody>
 			<!-- Студент Вейдер -->
+			{% for student in students %}
 			<tr class="head_journal">
-				{% for student in students %}
 				<td>{{ student.student_name.id }}</td>
 				<td><a title="Редагувати" href="{% url 'students_edit' student.student_name.id %}">
 					{{ student.student_name.first_name }} {{ student.student_name.last_name }}</a></td>
 				{% for day in days|make_list %}
-				<td><div class="checkbox">
+				<td><div class="daybox">
 					  <label>
 						<input type="checkbox" id="blankCheckbox" 
 							value="1" aria-label="...">
