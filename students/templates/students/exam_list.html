@@ -63,6 +63,7 @@ href="{% url "exams_add" %}" role="button">
 			{% endwith %}
 		</thead>
 		<tbody>
+			{% if exams %}
 			{% for exam in exams %} 
 			<tr> 
 				<td>{{ exam.id }}</td>
@@ -95,6 +96,12 @@ href="{% url "exams_add" %}" role="button">
 				</td>
 			</tr>
 			{% endfor %}
+			{% else %}
+			<tr>
+				<td></td>
+				<td>Для обраної групи немає екзаменів</td>
+			</tr>
+			{% endif %}
 		</tbody>
 	</table>
 	

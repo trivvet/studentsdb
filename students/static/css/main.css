@@ -70,6 +70,19 @@ h5 {
 .help-block {
 	color:#F80000;
 }
-textarea, select, input {
+textarea, select, input, .input-group {
 	max-width: 300px;
 }
+.day-box, .day-header {
+	padding: 4px !important;
+	vertical-align: middle !important;
+	text-align: center;
+}
+#ajax-progress-indicator {
+	display: none;
+}
+#error {
+	display: none;
+}
+
+

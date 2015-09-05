@@ -12,6 +12,7 @@ from django.views.generic import UpdateView
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Div
 from crispy_forms.bootstrap import FormActions
+from ..util import get_current_group
 
 # Views for Students
 
@@ -58,7 +59,14 @@ class ExamsUpdateView(UpdateView):
 			return super(ExamsUpdateView, self).post(request, *args, **kwargs)
 
 def exams_list(request):
-	exams = Exam.objects.all()
+	current_group = get_current_group(request)
+	if current_group:
+		if Exam.objects.filter(group_exam=current_group):
+			exams = Exam.objects.filter(group_exam=current_group)
+		else:
+			return render(request, 'students/exam_list.html', {})
+	else:
+		exams = Exam.objects.all()
 	
 	order_by = request.GET.get('order_by', '')
 	if order_by in ('id', 'matter', 'group_exam__title', 'time', 'teacher'):

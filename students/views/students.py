@@ -7,12 +7,14 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 from ..models.students import Student
 from ..models.groups import Group
+from ..views.paginator import page_scroll
 from django import forms
 from django.forms import ModelForm, ValidationError
 from crispy_forms.helper import FormHelper
 from crispy_forms.bootstrap import FormActions, PrependedText
 from crispy_forms.layout import Submit, Layout, Div
 from datetime import datetime
+from ..util import get_current_group
 from PIL import Image
 
 # Views for Students
@@ -79,7 +81,11 @@ class StudentDeleteView(DeleteView):
 
 def students_list(request):
 	
-	students = Student.objects.all()
+	current_group = get_current_group(request)
+	if current_group:
+		students = Student.objects.filter(student_group=current_group)
+	else:
+		students = Student.objects.all()
 	
 	order_by = request.GET.get('order_by', '')
 	if order_by in ('id', 'last_name', 'first_name', 'ticket', 'student_group__title'):
@@ -89,12 +95,7 @@ def students_list(request):
 	else:
 		students = students.order_by('first_name')
 	
-	pages = []
-	k = 0
-	if not students.count() % 3 == 0:
-		k = 1
-	for i in range(students.count() / 3 + k):
-		pages.append(str(i+1))
+	pages = page_scroll(students, 3)
 		
 	number_page = int(request.GET.get('page', '1'))
 	if number_page > len(pages):

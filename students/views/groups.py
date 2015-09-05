@@ -7,6 +7,7 @@ from ..models.students import Student
 from ..models.groups import Group
 from django.views.generic import DeleteView, UpdateView
 from django.contrib import messages
+from ..util import get_current_group
 
 class GroupUpdeteView(UpdateView):
 	model = Group
@@ -43,7 +44,11 @@ class GroupDeleteView(DeleteView):
 
 # Group list		
 def groups_list(request):
-	groups = Group.objects.all()
+	current_group = get_current_group(request)
+	if current_group:
+		groups = Group.objects.filter(pk=current_group.id)
+	else:	
+		groups = Group.objects.all()
 	
 	order_by = request.GET.get('order_by', '')
 	if order_by in ('id', 'title', 'leader__first_name'):

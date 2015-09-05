@@ -20,6 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
 	"django.core.context_processors.request",
 	"studentsdb.context_processors.students_proc",
+	"students.context_processors.groups_processor",
 	)
 
 # Quick-start development settings - unsuitable for production

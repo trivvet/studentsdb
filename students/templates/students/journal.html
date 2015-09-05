@@ -16,11 +16,18 @@
 </div>
 
 {% else %}
+<div class='alert alert-warning' id='normal'>
+	Зміни в журнал зберігаються автоматично при кожному кліку в клітинці таблиці
+	<span id='ajax-progress-indicator'>Йде збереження...</span>
+</div>
+<div class='alert alert-danger' id='error'>
+</div>
 
 <p id='journal-nav' class='text-center'>
 	<a href='?month={{ prev_month }}' title='Попередній місяць'>&larr;</a>
 	<strong>{{ month_verbose }} {{ year }}</strong>
 	<a href='?month={{ next_month }}' title='Наступний місяці'>&rarr;</a>
+	<p>{{ relat }}</p>
 </p>
 
 <table class="table table-hover table-bordered table-striped"

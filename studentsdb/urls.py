@@ -52,7 +52,7 @@ urlpatterns = patterns('',
 		
 	# Journal
 #	url(r'^journal/$', 'students.views.journal.journal_list', name='journal'),
-	url(r'^journal/$', JournalView.as_view(), name='journal'),
+	url(r'^journal/(?P<pk>\d+)?/?$', JournalView.as_view(), name='journal'),
 		
 	# Exams
     url(r'^exams/$', 'students.views.exam.exams_list', name='exams'),

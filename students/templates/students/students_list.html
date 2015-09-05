@@ -81,7 +81,9 @@ href="{% url "students_add" %}" role="button">
 			<!-- Студенти -->
 			{% for student in students %} 
 			<tr>
+				<!-- Student ID -->
 				<td>{{ student.id }}</td>
+				<!-- Student photo -->
 				{% if student.photo %}
 				<td><img height="40" width="40" 
 				src="{{ student.photo.url }}" class="img-circle"></td>
@@ -89,14 +91,17 @@ href="{% url "students_add" %}" role="button">
 				<td><img height="40" width="40" 
 				src="{% static "img/default_user.png" %}" class="img-circle"></td>
 				{% endif %}
+				<!-- Student name -->
 				<td><a title="Редагувати" 
-					href="{% url "students_edit" student.id %}">
+					href="{% url "students_edit" student.id %}" 
+					class="student-edit-form-link">
 						{{ student.first_name }}
-					</a></td>
+				</td>
 				<td><a title="Редагувати" 
-					href="{% url "students_edit" student.id %}">
+					href="{% url "students_edit" student.id %}"
+					class="student-edit-form-link">
 						{{ student.last_name }}
-					</a></td>
+				</td>
 				<td>{{ student.ticket }}</td>
 				<td>{{ student.student_group.title }}</td>
 				<td>
@@ -111,12 +116,13 @@ href="{% url "students_add" %}" role="button">
 							aria-labelledby="dropdownMenu1">
 							<li role="presentation">
 								<a role="menuitem" tabindex="-1" 
-									href="{% url "journal" %}">
+									href="{% url "journal" student.id %}">
 									Відвідування
 								</a></li>
 							<li role="presentation">
 								<a role="menuitem" tabindex="-1" 
-								href="{% url "students_edit" student.id %}">
+								href="{% url "students_edit" student.id %}"
+								class="student-edit-form-link">
 									Редагувати
 								</a></li>
 							<li role="presentation">

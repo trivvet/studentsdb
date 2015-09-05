@@ -2,48 +2,71 @@
 
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from ..models.journal import Student_visiting
 from ..models.monthjournal import MonthJournal
 from ..models.students import Student
 from ..models.groups import Group
 from django.views.generic.base import TemplateView
 from datetime import datetime, date
+from dateutil.relativedelta import relativedelta
+from calendar import monthrange, weekday, day_abbr
+from ..views.paginator import page_scroll
+import pdb
+from ..util import get_current_group
 
 class JournalView(TemplateView):
 	template_name = 'students/journal.html'
 	
 	def get_context_data(self, **kwargs):
 		context = super(JournalView, self).get_context_data(**kwargs)
-		today = datetime.today()
-		month = date(today.year, today.month, 1)
 		
-		context['prev_month'] = '2015-07-01'
-		context['next_month'] = '2015-09-01'
-		context['year'] = 2015
-		context['cur_month'] = '2015-08-01'
-		context['month_verbose'] = u'Липень'
+		if self.request.GET.get('month'):
+			month = datetime.strptime(self.request.GET['month'], '%Y-%m-%d').date()
+		else:
+			today = datetime.today()
+			month = date(today.year, today.month, 1)
 		
+		next_month = month + relativedelta(months=1)
+		prev_month = month - relativedelta(months=1)
+		context['prev_month'] = prev_month.strftime('%Y-%m-%d')
+		context['next_month'] = next_month.strftime('%Y-%m-%d')
+		context['year'] = month.year
+		context['cur_month'] = month.strftime('%Y-%m-%d')
+		context['month_verbose'] = month.strftime('%B')
+		
+		myear, mmonth = month.year, month.month
+		number_of_days = monthrange(myear,mmonth)[1]
 		context['month_header'] = [
-			{'day': 1, 'verbose': 'Пн'},
-			{'day': 2, 'verbose': 'Вт'},
-			{'day': 3, 'verbose': 'Ср'},
-			{'day': 4, 'verbose': 'Чт'},
-			{'day': 5, 'verbose': 'Пт'}]
+			{'day': d, 'verbose': day_abbr[weekday(myear,mmonth,d)][:2]}
+				for d in range(1, number_of_days+1)]
 			
-		queryset = Student.objects.order_by('first_name')
+		
+		if kwargs.get('pk'):
+			queryset = [Student.objects.get(pk=kwargs['pk'])]
+		else:
+			current_group = get_current_group(self.request)
+			if current_group:
+				queryset = Student.objects.filter(student_group=current_group).order_by('first_name')
+			else:
+				queryset = Student.objects.all().order_by('first_name')
 		
 		update_url = reverse('journal') 
 		
 		students = []
 		
 		for student in queryset:
+			try:
+				journal = MonthJournal.objects.get(student=student, date=month)
+			except:
+				journal = None
 			days = []
-			for day in range(1,6):
+			for day in range(1,number_of_days+1):
 				days.append({
 					'day': day,
-					'present': True,
-					'date': date(2015, 8, day).strftime('%Y-%m-%d'),
+					'present': journal and getattr(journal, 'present_day%d' 
+						% day, False) or False,
+					'date': date(myear, mmonth, day).strftime('%Y-%m-%d'),
 					})
 			students.append({
 				'full_name': u'%s %s' % (student.first_name, student.last_name),
@@ -52,24 +75,29 @@ class JournalView(TemplateView):
 				'updade_url': update_url,
 				})
 		
-		pages = []
-		k = 0
-		if len(students) % 10 == 0:
-			k = len(students) / 10
-		else:
-			k = len(students) / 10 + 1
-		for page in range(k):
-			pages.append(str(page+1))
-		context['pages'] = pages
+		context['pages'] = page_scroll(students, 10)
 			
 		page = int(self.request.GET.get('page', '1'))
 		context['page'] = (page - 1) * 10
-		if len(pages) <= 1:
+		if len(context['pages']) <= 1:
 			context['students'] = students
 		else:
 			context['students'] = students[(page - 1)*10:page*10]
 		
 		return context
+		
+	def post(self, request, *args, **kwargs):
+		data = request.POST
+		current_date = datetime.strptime(data['date'], '%Y-%m-%d').date()
+		month = date(current_date.year, current_date.month, 1)
+		present = data['present'] and True or False
+		student = Student.objects.get(pk=data['pk'])
+		journal = MonthJournal.objects.get_or_create(student=student, date=month)[0]
+		
+		setattr(journal, 'present_day%d' % current_date.day, present)
+		journal.save()
+		
+		return JsonResponse({'status': 'success'})
 
 def journal_list(request):
 	students = Student_visiting.objects.all()
