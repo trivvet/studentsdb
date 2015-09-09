@@ -63,6 +63,13 @@ class StudentUpdateView(UpdateView):
 			return HttpResponseRedirect(reverse('home'))
 		else:
 			return super(StudentUpdateView, self).post(request, *args, **kwargs)
+			
+	def get_context_data(self, **kwargs):
+		context = super(UpdateView, self).get_context_data(**kwargs)
+		i = 0
+		while i < 1000:
+			i = i + 1
+		return context
 
 class StudentDeleteView(DeleteView):
 	model = Student

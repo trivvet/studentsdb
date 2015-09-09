@@ -67,6 +67,7 @@ class JournalView(TemplateView):
 					'present': journal and getattr(journal, 'present_day%d' 
 						% day, False) or False,
 					'date': date(myear, mmonth, day).strftime('%Y-%m-%d'),
+					'verbose_date': date(myear, mmonth, day).strftime('%w'),
 					})
 			students.append({
 				'full_name': u'%s %s' % (student.first_name, student.last_name),

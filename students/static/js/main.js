@@ -95,11 +95,12 @@ function initEditStudentPage() {
 			'dataType': 'html',
 			'type': 'get',
 			'success': function(data, status, xhr) {
+//				$('#loading').show();
 				if (status != 'success') {
 					alert('Помилка на сервері. Спробуйте будь ласка пізніше');
 					return false;
 				}
-				
+//				$('#loading').hide()
 				var modal = $('#myModal'), html = $(data), 
 				form = html.find('#content-columns form');
 				modal.find('.modal-title').html(html.find('#content-columns h2').text());

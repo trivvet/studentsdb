@@ -53,7 +53,8 @@
 				</a></th>
 			{% endwith %}
 			{% for day in month_header %}
-			<th class="day-header">
+			<th class="day-header" {% if day.verbose == "Sa" or day.verbose == "Su" %} 
+				style="color: red"{% endif %}>
 				{{ day.verbose }}
 				<br />
 				{{ day.day }}
@@ -73,9 +74,11 @@
 				{{ student.full_name }}</a></td>
 			{% for day in student.days %}
 			<td class='day-box'>
-				<input type="checkbox" data-student-id='{{ student.id }}'
+				{% if day.verbose_date != '6' and day.verbose_date != '0' %} 
+					<input type="checkbox" data-student-id='{{ student.id }}'
 					data-date='{{ day.date }}' data-url="{{ student.update_url }}" 
 					value="1" {% if day.present %} checked='checked' {% endif %} />
+					{% endif %}
 			</td>
 			{% endfor %}
 		</tr>
