@@ -1,11 +1,14 @@
 {% extends "students/base.html" %}
 
+{% load crispy_forms_tags %}
+
 {% block meta_title %}Додати групу{% endblock meta_title %}
 
 {% block title %}Додати групу{% endblock title %}
 
 {% block content %}
 
+<!--
 <form method="post" action="." type="multipart/form-data" class="form-horizontal">
 	
 	{% csrf_token %}
@@ -42,5 +45,7 @@
 	</div>
 	
 </form>
+-->
+{% crispy form %}
 
 {% endblock content %}

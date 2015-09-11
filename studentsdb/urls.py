@@ -19,8 +19,8 @@ from django.views.generic import TemplateView
 from .settings import MEDIA_ROOT, DEBUG
 # from students.views.students import StudentList
 from students.views.contact_admin import ContactView
-from students.views.groups import GroupDeleteView, GroupUpdeteView
-from students.views.students import StudentUpdateView, StudentDeleteView
+from students.views.groups import GroupDeleteView, GroupUpdateView, GroupAddView
+from students.views.students import StudentUpdateView, StudentDeleteView, StudentAddView
 from students.views.exam import ExamsUpdateView
 from students.views.journal import JournalView
 from contact_form.views import ContactFormView
@@ -30,8 +30,9 @@ from contact_form import urls
 urlpatterns = patterns('',
 	# Students urls
 	url(r'^$', 'students.views.students.students_list', name='home'),
-	url(r'^students/add/$', 'students.views.students.students_add',
-		name='students_add'),
+#	url(r'^students/add/$', 'students.views.students.students_add',
+#		name='students_add'),
+	url(r'^students/add/$', StudentAddView.as_view(), name='students_add'),
 	url(r'^students/(?P<pk>\d+)/edit/$', StudentUpdateView.as_view(),
 		name='students_edit'),
 #	url(r'^students/(?P<pk>\d+)/edit/$', 'students.views.students.students_edit',
@@ -41,14 +42,14 @@ urlpatterns = patterns('',
 		
 	# Group urls
 	url(r'^groups/$', 'students.views.groups.groups_list', name='groups'),
-	url(r'^groups/add/$', 'students.views.groups.groups_add',
-		name='groups_add'),
-	url(r'^groups/(?P<pk>\d+)/edit/$', GroupUpdeteView.as_view(), name='groups_edit'),
+	url(r'^groups/add/$', GroupAddView.as_view(), name='groups_add'),
+#	url(r'^groups/add/$', 'students.views.groups.groups_add',
+#		name='groups_add'),
+	url(r'^groups/(?P<pk>\d+)/edit/$', GroupUpdateView.as_view(), name='groups_edit'),
 
 #	url(r'^groups/(?P<pk>\d+)/edit/$', 'students.views.groups.groups_edit',
 #		name='groups_edit'),
-	url(r'^groups/(?P<pk>\d+)/delete/$', 'students.views.groups.groups_delete',
-		name='groups_delete'),
+	url(r'^groups/(?P<pk>\d+)/delete/$', GroupDeleteView.as_view(), name='groups_delete'),
 		
 	# Journal
 #	url(r'^journal/$', 'students.views.journal.journal_list', name='journal'),

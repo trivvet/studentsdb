@@ -1,25 +1,13 @@
 {% extends "students/base.html" %}
 
+{% load crispy_forms_tags %}
+
 {% block meta_title %}Форма додавання групи{% endblock meta_title %}
 
 {% block title %}Форма додавання групи{% endblock title %}
 
 {% block content %}
 
-<form method="post" action="." type="multipart/form-data" class="form-horizontal">
-	
-	{% csrf_token %}
-	
-	{{ form.as_p }}
-	
-	<div class="form-group">
-		<label for="notes" class="col-sm-2 control-label"></label>
-		<div class="col-sm-10">
-			<button name="add_button" type="submit" class="btn btn-primary">Зберегти</button>
-			<button name="cancel_button" type="submit" class="btn btn-link">Скасувати</button>
-		</div>
-	</div>
-	
-</form>
+{% crispy form %}
 
 {% endblock content %}

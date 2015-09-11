@@ -5,7 +5,7 @@
 {% block title %}Групи{% endblock title %}
 
 {% block content %}
-<a class="btn btn-primary btn-lg" 
+<a class="btn btn-primary btn-lg form-link" 
 	href="{% url "groups_add" %}" role="button">Додати Групу</a>
 <div>
 	<!-- Table of Student -->
@@ -55,12 +55,13 @@
 			{% for group in groups %}
 			<tr>
 				<td>{{ group.id }}</td>
-				<td><a title="Редагувати" href="{% url "groups_edit" group.id %}">
+				<td><a title="Редагувати" href="{% url "groups_edit" group.id %}"
+						class="form-link">
 						{{ group.title }}
 					</a></td>
 				<td>
 					{% if group.leader.id %}
-					<a title="Редагувати" 
+					<a title="Редагувати" class="form-link"
 					href="{% url "students_edit" group.leader.id %}">
 						{{ group.leader.first_name }} {{ group.leader.last_name }}
 					</a>
@@ -79,12 +80,12 @@
 						<ul class="dropdown-menu" 
 							role="menu" aria-labelledby="dropdownMenu1">
 							<li role="presentation">
-								<a role="menuitem" tabindex="-1" 
+								<a role="menuitem" tabindex="-1" class="form-link"
 									href="{% url "groups_edit" group.id %}">
 									Редагувати
 								</a></li>
 							<li role="presentation">
-								<a role="menuitem" tabindex="-1" 
+								<a role="menuitem" tabindex="-1" class="form-link"
 									href="{% url "groups_delete" group.id %}">
 									Видалити
 								</a></li>

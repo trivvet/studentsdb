@@ -44,12 +44,15 @@ function initGroupSelector() {
 };
 
 function initDateFields() {
+	$('#id_birthday').wrap("<div class='input-group date' id='div_id_birthday'>\
+		</div>").after("<span class='input-group-addon'>\
+	   <span class='glyphicon glyphicon-calendar'></span></span>");
 	$('#id_birthday').datetimepicker({
 		'format': 'YYYY-MM-DD'
 	}).on('dp.hide', function(event) {
 		$(this).blur();
 	});
-	$('#datetimeinput').datetimepicker({
+	$('#id_time').datetimepicker({
 		'format': 'YYYY-MM-DD HH-mm',
 	}).on('dp.hide', function(event) {
 		$(this).blur();
@@ -87,8 +90,8 @@ function initEditStudentForm(form, modal) {
 	return true;
 }; 
 
-function initEditStudentPage() {
-	$('a.student-edit-form-link').click(function(event){
+function initEditPage() {
+	$('a.form-link').click(function(event){
 		var link = $(this);
 		$.ajax({
 			'url': link.attr('href'),
@@ -97,7 +100,7 @@ function initEditStudentPage() {
 			'success': function(data, status, xhr) {
 //				$('#loading').show();
 				if (status != 'success') {
-					alert('Помилка на сервері. Спробуйте будь ласка пізніше');
+					alert('Помилка на сервері. Спробуйте будь-ласка пізніше');
 					return false;
 				}
 //				$('#loading').hide()
@@ -105,9 +108,12 @@ function initEditStudentPage() {
 				form = html.find('#content-columns form');
 				modal.find('.modal-title').html(html.find('#content-columns h2').text());
 				modal.find('.modal-body').html(form);
-				modal.find('.modal-footer').hide()
-				
+				modal.find('.modal-footer').hide();
+				$('div.dropdown').removeClass('open');
+
 				initEditStudentForm(form, modal);
+				
+				$('#id_notes').removeAttr('rows');
 				
 				modal.modal({'keyboard': false, 'backdrop': false, 'show':true});
 			},
@@ -119,11 +125,11 @@ function initEditStudentPage() {
 		
 		return false;
 	});
-};	
+}
 
 $(document).ready(function() {
 	initJournal();
 	initGroupSelector();
 	initDateFields();
-	initEditStudentPage();
+	initEditPage();
 });

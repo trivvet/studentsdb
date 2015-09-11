@@ -8,8 +8,8 @@
 
 {% block content %}
 
-<a class="btn btn-primary btn-lg head" 
-href="{% url "students_add" %}" role="button">
+<a class="btn btn-primary btn-lg head form-link" 
+	href="{% url "students_add" %}" role="button">
 	Додати Студента
 </a>
 <div>
@@ -94,12 +94,12 @@ href="{% url "students_add" %}" role="button">
 				<!-- Student name -->
 				<td><a title="Редагувати" 
 					href="{% url "students_edit" student.id %}" 
-					class="student-edit-form-link">
+					class="form-link">
 						{{ student.first_name }}
 				</td>
 				<td><a title="Редагувати" 
 					href="{% url "students_edit" student.id %}"
-					class="student-edit-form-link">
+					class="form-link">
 						{{ student.last_name }}
 				</td>
 				<td>{{ student.ticket }}</td>
@@ -122,11 +122,12 @@ href="{% url "students_add" %}" role="button">
 							<li role="presentation">
 								<a role="menuitem" tabindex="-1" 
 								href="{% url "students_edit" student.id %}"
-								class="student-edit-form-link">
+								class="form-link">
 									Редагувати
 								</a></li>
 							<li role="presentation">
 								<a role="menuitem" tabindex="-1" 
+								class='form-link'
 								href="{% url "students_delete" student.id %}">
 									Видалити
 								</a></li>

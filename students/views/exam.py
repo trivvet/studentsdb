@@ -19,6 +19,7 @@ from ..util import get_current_group
 class ExamsUpdateForm(ModelForm):
 	class Meta:
 		model  = Exam
+		fields = '__all__'
 		
 	def __init__(self, *args, **kwargs):
 		super(ExamsUpdateForm, self).__init__(*args, **kwargs)
@@ -43,7 +44,6 @@ class ExamsUpdateForm(ModelForm):
 			)
         
 class ExamsUpdateView(UpdateView):
-	model = Exam
 	template_name = 'students/exams_edit_class.html'
 	form_class = ExamsUpdateForm
 	
