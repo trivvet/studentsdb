@@ -21,7 +21,7 @@ from .settings import MEDIA_ROOT, DEBUG
 from students.views.contact_admin import ContactView
 from students.views.groups import GroupDeleteView, GroupUpdateView, GroupAddView
 from students.views.students import StudentUpdateView, StudentDeleteView, StudentAddView
-from students.views.exam import ExamsUpdateView
+from students.views.exam import ExamsUpdateView, ExamAddView
 from students.views.journal import JournalView
 from contact_form.views import ContactFormView
 from contact_form import urls
@@ -57,7 +57,7 @@ urlpatterns = patterns('',
 		
 	# Exams
     url(r'^exams/$', 'students.views.exam.exams_list', name='exams'),
-    url(r'^exams/add/$', 'students.views.exam.exams_add', name='exams_add'),
+    url(r'^exams/add/$', ExamAddView.as_view(), name='exams_add'),
 	url(r'^exams/(?P<pk>\d+)/edit/$', ExamsUpdateView.as_view(), name='exams_edit'),
    
 #    url(r'^exams/(?P<pk>\d+)/edit/$', 'students.views.exam.exams_edit', 

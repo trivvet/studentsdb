@@ -41,16 +41,21 @@ class JournalView(TemplateView):
 			{'day': d, 'verbose': day_abbr[weekday(myear,mmonth,d)][:2]}
 				for d in range(1, number_of_days+1)]
 			
-		
 		if kwargs.get('pk'):
 			queryset = [Student.objects.get(pk=kwargs['pk'])]
 		else:
 			current_group = get_current_group(self.request)
 			if current_group:
-				queryset = Student.objects.filter(student_group=current_group).order_by('first_name')
+				queryset = Student.objects.filter(student_group=current_group)
 			else:
-				queryset = Student.objects.all().order_by('first_name')
+				queryset = Student.objects.all()
 		
+		order_by = self.request.GET.get('order_by', '')
+		if order_by:
+			queryset = queryset.order_by(order_by)
+			if self.request.GET.get('reverse', '') == '1':
+				queryset = queryset.reverse()
+			
 		update_url = reverse('journal') 
 		
 		students = []
@@ -73,7 +78,7 @@ class JournalView(TemplateView):
 				'full_name': u'%s %s' % (student.first_name, student.last_name),
 				'days': days,
 				'id': student.id,
-				'updade_url': update_url,
+				'update_url': update_url,
 				})
 		
 		context['pages'] = page_scroll(students, 10)
@@ -84,7 +89,7 @@ class JournalView(TemplateView):
 			context['students'] = students
 		else:
 			context['students'] = students[(page - 1)*10:page*10]
-		
+			
 		return context
 		
 	def post(self, request, *args, **kwargs):

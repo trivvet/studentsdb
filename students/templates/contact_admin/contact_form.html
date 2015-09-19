@@ -18,10 +18,14 @@
 
 {% endblock status_message %}
 
-{% block title %}Зв’язок із Адміністратором{% endblock title %}
+{% block title %}<div class='title_page'>Зв’язок із Адміністратором</div>{% endblock title %}
 
 {% block content %}
 
-{% crispy form %} 
+<div id='page'>
+
+{% crispy form %}
+
+</div> 
 
 {% endblock content %}

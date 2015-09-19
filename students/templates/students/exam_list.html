@@ -4,11 +4,13 @@
 
 {% block meta_title %}Екзамени{% endblock meta_title %}
 
-{% block title %}Екзамени{% endblock title %}
+{% block title %}<div class='title_page'>Екзамени</div>{% endblock title %}
 
 {% block content %}
 
-<a class="btn btn-primary btn-lg head" 
+<div id='page'>
+
+<a class="btn btn-primary btn-lg head form-link" 
 href="{% url "exams_add" %}" role="button">
 	Додати екзамен
 </a>
@@ -19,44 +21,41 @@ href="{% url "exams_add" %}" role="button">
 		<thead>
 			{% with order_by=request.GET.order_by reverse=request.GET.reverse %}
 			<tr>
-				<th><a href='{% url "exams" %}?order_by=id
+				<th><a class='sorting' href='{% url "exams" %}?order_by=id
 					{% if order_by == 'id' and reverse != '1' %}
 						&amp;reverse=1
 					{% endif %}'>
-					№{% if order_by == 'id' and reverse != '1' %}&uarr;
-					{% elif order_by == 'id' and reverse == '1' %}&darr;
-					{% endif %}
+					№
+					<span class="arrUp" style="display: none">&uarr;</span>
+					<span class="arrDown" style="display: none">&darr;</span>
 					</a></th>
-				<th><a href='{% url "exams" %}?order_by=matter
-					{% if order_by == 'matter' and reverse != '1' or order_by == '' %}
+				<th><a class='sorting' href='{% url "exams" %}?order_by=matter
+					{% if order_by == 'matter' and reverse != '1' %}
 					&amp;reverse=1{% endif %}'>
-					Назва предмету{% if order_by == 'matter' and reverse != '1' or order_by == '' %}&uarr;
-					{% elif order_by == 'matter' and reverse == '1' %}&darr;
-					{% endif %}
+					Назва предмету
+					<span class="arrUp">&uarr;</span>
+					<span class="arrDown" style="display: none">&darr;</span>
 					</a></th>
-				<th><a href='{% url "exams" %}?order_by=group_exam__title
+				<th><a class='sorting' href='{% url "exams" %}?order_by=group_exam__title
 					{% if order_by == 'group_exam__title' and reverse != '1' %}
 					&amp;reverse=1{% endif %}'>
 					Група
-					{% if order_by == 'group_exam__title' and reverse != '1' %}&uarr;
-					{% elif order_by == 'group_exam__title' and reverse == '1' %}&darr;
-					{% endif %}
+					<span class="arrUp" style="display: none">&uarr;</span>
+					<span class="arrDown" style="display: none">&darr;</span>
 					</a></th>
-				<th><a href='{% url "exams" %}?order_by=time
+				<th><a class='sorting' href='{% url "exams" %}?order_by=time
 					{% if order_by == 'time' and reverse != '1' %}
 					&amp;reverse=1{% endif %}'>
 					Час проведення
-					{% if order_by == 'time' and reverse != '1' %}&uarr;
-					{% elif order_by == 'time' and reverse == '1' %}&darr;
-					{% endif %}
+					<span class="arrUp" style="display: none">&uarr;</span>
+					<span class="arrDown" style="display: none">&darr;</span>
 					</a></th>
-				<th><a href='{% url "exams" %}?order_by=teacher
+				<th><a class='sorting' href='{% url "exams" %}?order_by=teacher
 					{% if order_by == 'teacher' and reverse != '1' %}
 					&amp;reverse=1{% endif %}'>
 					Викладач
-					{% if order_by == 'teacher' and reverse != '1' %}&uarr;
-					{% elif order_by == 'teacher' and reverse == '1' %}&darr;
-					{% endif %}
+					<span class="arrUp" style="display: none">&uarr;</span>
+					<span class="arrDown" style="display: none">&darr;</span>
 					</a></th>	
 				<th>Дії</th>
 			</tr>
@@ -67,10 +66,13 @@ href="{% url "exams_add" %}" role="button">
 			{% for exam in exams %} 
 			<tr> 
 				<td>{{ exam.id }}</td>
-				<td><a href='{% url "exams_edit" exam.id %}'>{{ exam.matter }}</a></td>
-				<td><a href='{% url "groups_edit" exam.group_exam.id %}'>{{ exam.group_exam.title }}</a></td>
+				<td><a class='form-link' href='{% url "exams_edit" exam.id %}'>
+					{{ exam.matter }}</a></td>
+				<td><a class='form-link' href='{% url "groups_edit" exam.group_exam.id %}'>
+					{{ exam.group_exam.title }}</a></td>
 				<td>{{ exam.time }}</td>
-				<td><a href='{% url "exams_edit" exam.id %}'>{{ exam.teacher }}</a></td>
+				<td><a class='form-link' href='{% url "exams_edit" exam.id %}'>
+					{{ exam.teacher }}</a></td>
 				<td>
 					<div class="dropdown">
 						<button class="btn btn-default dropdown-toggle" 
@@ -82,12 +84,12 @@ href="{% url "exams_add" %}" role="button">
 						<ul class="dropdown-menu" role="menu" 
 							aria-labelledby="dropdownMenu1">
 							<li role="presentation">
-								<a role="menuitem" tabindex="-1" 
+								<a class='form-link' role="menuitem" tabindex="-1" 
 								href="{% url "exams_edit" exam.id %}">
 									Редагувати
 								</a></li>
 							<li role="presentation">
-								<a role="menuitem" tabindex="-1" 
+								<a class='form-link' role="menuitem" tabindex="-1" 
 								href="{% url "exams_delete" exam.id %}">
 									Видалити
 								</a></li>
@@ -110,5 +112,7 @@ href="{% url "exams_add" %}" role="button">
 {% if pages|length > 1 %}
 		{% include "students/pagination.html" with page='exams' order_by=request.GET.order_by reverse=request.GET.reverse %}
 {% endif %}
+
+</div>
 
 {% endblock content %}

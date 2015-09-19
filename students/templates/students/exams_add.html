@@ -2,12 +2,17 @@
 
 {% load static from staticfiles %}
 
+{% load crispy_forms_tags %}
+
 {% block meta_title %}Додати екзамен{% endblock meta_title %}
 
 {% block title %}Додати екзамен{% endblock title %}
 
 {% block content %}
 
+{% crispy form %}
+
+<!--
 <form action="." method="post" class="form-horizontal">
 {% csrf_token %}
 	<div class="form-group">
@@ -73,8 +78,9 @@
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-sm-10">
 			<button type="submit" class="btn btn-primary" name="add_button">Додати</button>
-			<button type="submit" class="btn btn-link" name="close_button">Скасувати</button>
+			<input type="submit" class="btn btn-link" name="cancel_button" value='Скасувати' />
 		</div>
 	</div>
 </form>
+-->
 {% endblock content %}

@@ -44,25 +44,25 @@
 				<ul class="nav nav-tabs">
 					<li role="presentation" 
 						{% if request.path == '/' %}class="active"{% endif %}>
-						<a href="{% url "home" %}">
+						<a class="page_change" href="{% url "home" %}">
 							Студенти
 						</a></li>
 					<li role="presentation"
 						{% if '/journal' in request.path %}class="active"{% endif %}>
-						<a href="{% url "journal" %}">
+						<a class="page_change" href="{% url "journal" %}">
 						Відвідування
 					</a></li>
 					<li role="presentation"
 						{% if "/groups" in request.path %}class="active"{% endif %}>
-						<a href="{% url "groups" %}">Групи</a>
+						<a class="page_change" href="{% url "groups" %}">Групи</a>
 					</li>
 					<li role="presentation"
 						{% if "/exams" in request.path %}class="active"{% endif %}>
-						<a href="{% url "exams" %}">Екзамени</a>
+						<a class="page_change" href="{% url "exams" %}">Екзамени</a>
 					</li>
 					<li role="presentation"
 						{% if '/contact-admin' in request.path %}class="active"{% endif %}>
-						<a href="{% url "contact_admin" %}">Контакт</a>
+						<a class="page_change" href="{% url "contact_admin" %}">Контакт</a>
 					</li>
 					{% block subheader %}{% endblock subheader %}
 				</ul>
@@ -85,7 +85,9 @@
 				{% endif %}
 				{% endblock messages %}
 				<h2 class="head">{% block title %}{% endblock title %}</h2>
-				{% block content %}{% endblock content %}
+				<div id='proba'>
+					{% block content %}{% endblock content %}
+				</div>
 			</div>
 		</div>
 		
@@ -110,29 +112,36 @@
 					<button type="button" class="close" data-dismiss="modal" 
 						aria-label="Close">
 					<span aria-hidden="true">&times;</span>
-				</button>
+					</button>
 				<h2 class="modal-title" id="myModalLabel" 
 					style="text-align: center">This is title</h2>
-			</div>
-			<div class="modal-body">This is body of document</div>
-			<div class="modal-footer">
-				<div class="progress">
-					<div class="progress-bar progress-bar-striped active" 
-						role="progressbar" aria-valuenow="45" 			
-						aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-					</div>
+				</div>
+				<div class="modal-body">This is body of document</div>
+				<div class="modal-footer">
 				</div>
 			</div>
 		</div>
 	</div>
 	
-	<div id="loading" style="display: none;">
-		<div class="cmsg">
-			<div class="msg">Завантаження...</div>
-			<div class="lpb">
-				<div id="lpt" style="width: 90%;"></div>
+	<div class="modal" id="progress" tabindex="-2" aria-hidden="true">
+<		<div class="modal-dialog"> 
+			<div class="modal-content">
+				<div class="modal-header">
+					<div class="progress-bar progress-bar-striped active" 
+						role="progressbar" aria-valuenow="45" 			
+						aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+					</div>
+				<div class="modal-body">Зачекайте. Йде завантаження...</div>
+				<div class="modal-footer">
+					<div class="progress">
+						<div class="progress-bar progress-bar-striped active" 
+						role="progressbar" aria-valuenow="45" 			
+						aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+						</div>
+					</div>
+				</div>
 			</div>
-		</div>
+		</div> 
 	</div>
 	
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>

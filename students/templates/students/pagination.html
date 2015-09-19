@@ -1,7 +1,8 @@
 <nav>
 	<ul class="pagination">
 		<li>
-			<a href="{% url page %}?order_by={{ order_by }}&amp;reverse={{ reverse }}" aria-label="Previous">
+			<a class='paginator arrBack' href="{% url page %}?order_by={{ order_by }}
+				&amp;reverse={{ reverse }}" aria-label="Previous">
 				<span aria-hidden="true">&laquo;</span>
 			</a>
 		</li>
@@ -11,12 +12,14 @@
 				{% elif request.GET.page|add:0 > pages|length and p|add:0 == pages|length and request.GET.page != None %}
 				class="active" 
 				{% endif %}>
-				<a href="{% url page %}?page={{ p }}&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}
+				<a class="paginator" href="{% url page %}?page={{ p }}&amp;
+					order_by={{ order_by }}&amp;reverse={{ reverse }}
 					{% if cur_month %}&amp;month={{ cur_month }}{% endif %}">{{ p }}</a>
 			</li>
 		{% endfor %}
 		<li>
-			<a href="{% url page %}?page={{ pages|length }}&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}" 
+			<a class='paginator arrForward' href="{% url page %}?page={{ pages|length }}
+				&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}" 
 				aria-label="Next">
 				<span aria-hidden="true">&raquo;</span>
 			</a>

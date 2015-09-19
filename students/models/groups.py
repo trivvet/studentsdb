@@ -10,14 +10,17 @@ class Group(models.Model):
 		verbose_name_plural = u"Групи"
 	
 	title = models.CharField(
-		max_length=256,
+		max_length=250,
 		blank=False,
+		unique=True,
+		error_messages={'unique': 'Група з такою назвою вже існує'},
 		verbose_name=u"Назва")
 	
 	leader = models.OneToOneField('Student',
 		verbose_name=u"Староста",
 		blank=True,
 		null=True,
+		error_messages={'unique': 'Група з таким старостою вже існує'},
 		on_delete=models.SET_NULL)
 		
 	notes = models.TextField(

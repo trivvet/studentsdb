@@ -3,6 +3,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django import forms
 from ..models.students import Student
 from ..models.groups import Group
 from django.views.generic import DeleteView, UpdateView, CreateView
@@ -12,11 +13,15 @@ from crispy_forms.bootstrap import FormActions, PrependedText
 from crispy_forms.layout import Submit, Layout, Div, Button
 from django.contrib import messages
 from ..util import get_current_group
+import pdb
 
 class GroupAddForm(ModelForm):
 	class Meta:
 		model = Group
 		fields = ['title', 'notes']
+		widgets = {
+			'notes': forms.Textarea(attrs={'rows':4, 'cols':40}),
+			}
 	
 	def __init__(self, *args, **kwargs):
 		super(GroupAddForm, self).__init__(*args, **kwargs)
@@ -43,7 +48,7 @@ class GroupAddForm(ModelForm):
 class GroupAddView(CreateView):
 	template_name = 'students/groups_add.html'
 	form_class = GroupAddForm
-	success_url = 'groups'
+	success_url = 'home'
 	
 	def get_success_url(self):
 		messages.success(self.request, u'Групу успішно додано')
@@ -60,6 +65,9 @@ class GroupUpdateForm(ModelForm):
 	class Meta:
 		model = Group
 		fields = '__all__'
+		widgets = {
+			'notes': forms.Textarea(attrs={'rows':4, 'cols':40})
+			}
 		
 	def __init__(self, *args, **kwargs):
 		super(GroupUpdateForm, self).__init__(*args, **kwargs)
@@ -82,12 +90,19 @@ class GroupUpdateForm(ModelForm):
 			Submit('add_button', u'Зберегти', css_class="btn btn-primary"),
 			Submit('cancel_button', u'Скасувати', css_class="btn btn-link"),
 			)
+			
+		# edit fields
+#		self.helper['title'].update_attributes(css_class="hello")
 
 class GroupUpdateView(UpdateView):
 	model = Group
 	template_name = 'students/groups_edit_class.html'
 	form_class = GroupUpdateForm
 	success_url = 'groups'
+	
+#	def get_queryset(self):
+#		pdb.set_trace()
+#		return self.model.objects.filter(student_group=int(self.kwargs['pk'])):
 	
 	def get_success_url(self):
 		messages.success(self.request, u'Групу успішно змінено')

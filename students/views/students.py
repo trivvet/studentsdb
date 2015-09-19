@@ -12,10 +12,11 @@ from django import forms
 from django.forms import ModelForm, ValidationError
 from crispy_forms.helper import FormHelper
 from crispy_forms.bootstrap import FormActions, PrependedText
-from crispy_forms.layout import Submit, Layout, Div, Button
+from crispy_forms.layout import Submit, Layout, Div, Button, Field
 from datetime import datetime
 from ..util import get_current_group
 from PIL import Image
+import pdb, time
 
 # Views for Students
 
@@ -24,6 +25,9 @@ class StudentAddForm(ModelForm):
 		model = Student
 		fields = ['first_name', 'last_name', 'middle_name', 'birthday', 'photo', 
 			'ticket', 'student_group', 'notes']
+		widgets = {
+			'notes': forms.Textarea(attrs={'rows':4, 'cols':40}),
+			}
 		
 	def __init__(self, *args, **kwargs):
 		super(StudentAddForm, self).__init__(*args, **kwargs)
@@ -70,6 +74,9 @@ class StudentUpdateForm(ModelForm):
 		model = Student
 		fields = ['first_name', 'last_name', 'middle_name', 'birthday', 'photo', 
 			'ticket', 'student_group', 'notes']
+		widgets = {
+			'notes': forms.Textarea(attrs={'rows':4, 'cols':40}),
+			}
 		
 	def __init__(self, *args, **kwargs):
 		super(StudentUpdateForm, self).__init__(*args, **kwargs)
@@ -95,8 +102,7 @@ class StudentUpdateForm(ModelForm):
 			Submit('add_button', u'Зберегти', css_class="btn btn-primary"),
 			Submit('cancel_button', u'Скасувати', css_class="btn btn-link"),
 			)
-		
-
+			
 class StudentUpdateView(UpdateView):
 	model = Student
 	template_name = 'students/students_edit.html'
@@ -111,13 +117,12 @@ class StudentUpdateView(UpdateView):
 			messages.info(self.request, u'Редагування студента відмінено!')
 			return HttpResponseRedirect(reverse('home'))
 		else:
+			time.sleep(2)
 			return super(StudentUpdateView, self).post(request, *args, **kwargs)
 			
 	def get_context_data(self, **kwargs):
 		context = super(StudentUpdateView, self).get_context_data(**kwargs)
-		i = 0
-		while i < 1000000:
-			i = i + 1
+		time.sleep(2)
 		return context
 
 
@@ -158,7 +163,8 @@ def students_list(request):
 	number_page = int(request.GET.get('page', '1'))
 	if number_page > len(pages):
 		number_page = len(pages)
-	students = students[number_page * 3 - 3: number_page * 3]
+	if number_page > 0:
+		students = students[number_page * 3 - 3: number_page * 3]
 	
 	groups = Group.objects.all()
 	return render(request, 'students/students_list.html',

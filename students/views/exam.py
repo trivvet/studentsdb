@@ -8,13 +8,59 @@ from datetime import datetime
 from ..models.groups import Group
 from ..models.exams import Exam
 from django.forms import ModelForm
-from django.views.generic import UpdateView
+from django.views.generic import UpdateView, CreateView
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Div
 from crispy_forms.bootstrap import FormActions
 from ..util import get_current_group
+import pdb
 
 # Views for Students
+
+class ExamAddForm(ModelForm):
+	class Meta:
+		model = Exam
+		fields = '__all__'
+	
+	def __init__(self, *args, **kwargs):
+		super(ExamAddForm, self).__init__(*args, **kwargs)
+		
+		self.helper = FormHelper(self)
+		
+		self.helper.form_action = reverse('exams_add')
+		
+		self.helper.form_class = 'form-horizontal'
+		self.helper.form_method = 'POST'
+		
+		self.helper.help_text_inline = True
+		self.helper.html5_required = True
+		self.helper.label_class = 'col-sm-4 control-label'
+		self.helper.field_class = 'col-sm-8'
+		
+		self.helper.layout.append('')
+		self.helper.layout[-1] = FormActions(
+			Div('', css_class='col-sm-4'),
+			Submit('add_button', u'Додати', css_class="btn btn-primary"),
+			Submit('cancel_button', u'Скасувати', css_class="btn btn-link"),
+			)
+
+class ExamAddView(CreateView):
+	template_name = 'students/exams_add.html'
+	form_class = ExamAddForm
+	success_url = 'exams'
+	model = Exam
+	
+	def get_success_url(self):
+		messages.success(self.request, u'Екзамен успішно додано')
+		return reverse('exams')
+		
+	def post(self, request, *args, **kwargs):
+		if request.POST.get('cancel_button') is not None:
+			messages.info(request, u'Додавання екзамену відмінено')
+			return HttpResponseRedirect(reverse('exams'))
+		else:
+			return super(ExamAddView, self).post(request, *args, **kwargs)
+
 
 class ExamsUpdateForm(ModelForm):
 	class Meta:
@@ -33,12 +79,12 @@ class ExamsUpdateForm(ModelForm):
 		self.helper.help_text_inline = True
 		self.helper.error_text_inline = True
 		self.helper.html5_required = True
-		self.helper.label_class = 'col-sm-2'
-		self.helper.field_class = 'col-sm-10'
+		self.helper.label_class = 'col-sm-4'
+		self.helper.field_class = 'col-sm-8'
 
 		self.helper.layout.append('')
 		self.helper.layout[-1] = FormActions(
-				Div('1', css_class='col-sm-2'),
+				Div('1', css_class='col-sm-4'),
 				Submit('save_button', u'Зберегти', css_class='btn btn-primary'),
 				Submit('cancel_button', u'Скасувати', css_class='btn btn-link')
 			)
@@ -46,6 +92,7 @@ class ExamsUpdateForm(ModelForm):
 class ExamsUpdateView(UpdateView):
 	template_name = 'students/exams_edit_class.html'
 	form_class = ExamsUpdateForm
+	model  = Exam
 	
 	def get_success_url(self):
 		messages.success(self.request, u"Екзамен успішно відредаговано!")
