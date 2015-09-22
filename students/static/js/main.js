@@ -77,7 +77,6 @@ function initAddImage() {
 
 function initEditImage() {
 	var link = $('#div_id_photo div a').attr('href');
-	console.log(link);
 	$('#div_id_photo div br').before('<img src="' + 
 		link + '" heigth="90" width="90">');
 }
@@ -110,8 +109,10 @@ function initForm(form, modal) {
 			var html = $(data), newform = html.find('#content-columns form');
 			modal.find('.modal-body').html(html.find('.alert'));
 			if (newform.length > 0) {
+				console.log('proba');
 				modal.find('.modal-body').append(newform);
-				initEditStudentForm(newform, modal);
+				initForm(newform, modal);
+			
 			} else {
 				modal.find('.modal-footer').hide('fast');
 				modal.find('.modal-body').show('fast');
@@ -123,7 +124,7 @@ function initForm(form, modal) {
 				initEditPage();
 				initJournal();
 				initPaginator();
-				initSorting()
+				initSorting();
 			}
 		}
 	}); 

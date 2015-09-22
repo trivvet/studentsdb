@@ -8,7 +8,7 @@ from datetime import datetime
 from ..models.groups import Group
 from ..models.exams import Exam
 from django.forms import ModelForm
-from django.views.generic import UpdateView, CreateView
+from django.views.generic import UpdateView, CreateView, DeleteView
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Div
 from crispy_forms.bootstrap import FormActions
@@ -49,6 +49,7 @@ class ExamAddView(CreateView):
 	form_class = ExamAddForm
 	success_url = 'exams'
 	model = Exam
+	fields = '__all__'
 	
 	def get_success_url(self):
 		messages.success(self.request, u'Екзамен успішно додано')
@@ -65,7 +66,7 @@ class ExamAddView(CreateView):
 class ExamsUpdateForm(ModelForm):
 	class Meta:
 		model  = Exam
-		fields = '__all__'
+		fields = ['matter', 'time', 'teacher', 'group_exam'] 
 		
 	def __init__(self, *args, **kwargs):
 		super(ExamsUpdateForm, self).__init__(*args, **kwargs)
@@ -93,6 +94,7 @@ class ExamsUpdateView(UpdateView):
 	template_name = 'students/exams_edit_class.html'
 	form_class = ExamsUpdateForm
 	model  = Exam
+	fields = ['matter', 'time', 'teacher', 'group_exam'] 
 	
 	def get_success_url(self):
 		messages.success(self.request, u"Екзамен успішно відредаговано!")
@@ -104,6 +106,21 @@ class ExamsUpdateView(UpdateView):
 			return HttpResponseRedirect(reverse('exams'))
 		else:
 			return super(ExamsUpdateView, self).post(request, *args, **kwargs)
+			
+class ExamsDeleteView(DeleteView):
+	template_name = 'students/exams_delete.html'
+	model = Exam
+	
+	def get_success_url(self):
+		messages.success(self.request, u'Екзамен видалено успішно')
+		return reverse('exams')
+		
+	def post(self, request, pk, *args, **kwargs):
+		if request.POST.get('cancel_button') is not None:
+			messages.info(self.request, u'Видалення екзамену відмінено')
+			return HttpResponseRedirect(reverse('exams'))
+		else:
+			return super(ExamsDeleteView, self).post(request, *args, **kwargs)
 
 def exams_list(request):
 	current_group = get_current_group(request)
